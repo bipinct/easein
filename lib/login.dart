@@ -1,3 +1,4 @@
+import 'package:easein/api/graphql_handler.dart';
 import 'package:easein/verifyotp.dart';
 import 'package:flutter/material.dart';
 
@@ -7,12 +8,17 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  TextEditingController textEditingController = TextEditingController();
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     Size size =MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Color(0xFF5c00d2),
-        body: Center(
+        body:
+        Stack(
+          children: <Widget>[
+            Center(
           child: Container(
             color: Colors.white,
             margin: EdgeInsets.all(13.0),
@@ -30,6 +36,7 @@ class _LoginState extends State<Login> {
                         width: size.width-100,
                         height: 60,
                         child: TextField(
+                          controller: textEditingController,
                           keyboardType: TextInputType.number,
                           maxLength: 10,
                           maxLengthEnforced: true,
@@ -41,7 +48,9 @@ class _LoginState extends State<Login> {
                     RaisedButton(
                       color: Colors.greenAccent,
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyOTP()));
+                        print("..done....");
+//
+                        signIn();
                       },
                       child: Text("Get OTP"),
                     )
@@ -50,6 +59,40 @@ class _LoginState extends State<Login> {
               ],
             ),
           ),
-        ));
+        ),
+            loading ?
+            Container(
+              width: size.width,
+              height: size.height,
+              color: Colors.black38,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ): Wrap()
+    ]));
+  }
+
+   signIn() async{
+    setState(() {
+      loading = true;
+    });
+     var result = await signInEnterPhoneNumber(textEditingController.text);
+     if(result != null ){
+//       Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyOTP()));
+     }else{
+
+     }
+    setState(() {
+      loading = false;
+    });
+     print(".................result..............");
+     print(".................result..............");
+     print(".................result..............");
+     print(result);
+
+     print(".................result..............");
+     print(".................result..............");
+    print(result["signInWithPhoneNumber"]["status"]);
+
   }
 }

@@ -1,3 +1,4 @@
+import 'package:easein/home.dart';
 import 'package:easein/main.dart';
 import 'package:flutter/material.dart';
 
