@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import "package:graphql/client.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
@@ -46,7 +47,9 @@ Future signInEnterPhoneNumber(dynamic phoneNumber) async {
   if (result.hasErrors) {
     return result.errors[0].toString();
   }
-  return result.data;
+
+    Map<String, dynamic> resp = result.data != null && result.data["signInWithPhoneNumber"] != null ? result.data["signInWithPhoneNumber"] : null;
+    return resp;
 }
 
 
