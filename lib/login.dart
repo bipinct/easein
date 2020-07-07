@@ -82,8 +82,9 @@ class _LoginState extends State<Login> {
       loading = true;
     });
     var result = await signInEnterPhoneNumber(textEditingController.text);
+    print(result);
     if (result != null && result["status"] == true ) {
-       Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyOTP()));
+       Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyOTP(phoneNumber: textEditingController.text)));
     } else {}
     setState(() {
       loading = false;

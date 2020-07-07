@@ -1,11 +1,12 @@
+import 'package:easein/addbusiness.dart';
 import 'package:easein/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+//  MyHomePage({Key key, this.title}) : super(key: key);
+//
+//  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -30,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("easein"),
       ),
       drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
@@ -79,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ListTile(
                 title: Text('Add Business'),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> AddBusiness() ));
                 },
               ),
               ListTile(

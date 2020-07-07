@@ -55,10 +55,10 @@ Future signInEnterPhoneNumber(dynamic phoneNumber) async {
 
 const String mutation_signInVerifyOTP = r'''
   mutation($phoneNumber:String!,$otp:String!){
-  signInWithPhoneNumber(phoneNumber: $phoneNumber,otp:$otp){
-  status
-  message
-
+    verifyOTP(phoneNumber: $phoneNumber,otp:$otp){
+    status
+    message
+    token
   }
 }
 ''';
@@ -70,12 +70,15 @@ Future signInVerifyOTP(dynamic phoneNumber,dynamic otp) async {
     'phoneNumber': phoneNumber.toString(),
     'otp':otp.toString()
   });
+  print(phoneNumber);print(otp);
   final client = await getGraphqlClient();
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
     return result.errors[0].toString();
   }
-  return result.data;
+  Map<String, dynamic> resp = result.data != null && result.data["verifyOTP"] != null ? result.data["verifyOTP"] : null;
+  return resp;
+
 }
 
 const String mutation_updateProfile = r'''
