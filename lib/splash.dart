@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easein/addbusiness.dart';
 import 'package:easein/home.dart';
 import 'package:easein/login.dart';
 import 'package:easein/main.dart';
@@ -98,7 +99,8 @@ class _SplashState extends State<Splash> {
     String token = prefs.getString('x-token');
     if (token != null) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+//          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+          context, MaterialPageRoute(builder: (context) => AddBusiness()));
     } else {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Login()));
