@@ -100,7 +100,8 @@ class _SplashState extends State<Splash> {
     String token = prefs.getString('x-token');
     if (token != null) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => ListBusiness()));
+          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+//          context, MaterialPageRoute(builder: (context) => ListBusiness()));
 //          context, MaterialPageRoute(builder: (context) => AddBusiness()));
     } else {
       Navigator.pushReplacement(
