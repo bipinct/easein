@@ -42,6 +42,8 @@ Future signInEnterPhoneNumber(dynamic phoneNumber) async {
         'phoneNumber': phoneNumber.toString(),
       });
   final client = await getGraphqlClient();
+  print(phoneNumber);
+  print(client);
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
     return result.errors[0].toString();
@@ -117,7 +119,7 @@ Future updateProfile(String name, String phone2, String email1, String email2,
 
 //  profilepic: ,address:"",city:"",state:"",district:"",pincode:"",twitter:"",facebook:"",)
 const String mutation_addBusiness = r'''
-  mutation($shopName:String!,$phone:String,$about:String!,$email:String,$address:String!){
+  mutation($shopName:String!,$phone:String!,$about:String!,$email:String,$address:String!){
   addBusiness(shopName: $shopName,phone:$phone,about:$about,email:$email,address:$address){
   status
   message
@@ -126,8 +128,12 @@ const String mutation_addBusiness = r'''
 }
 ''';
 
-Future addBusiness(String shopName, String phone, String email, String address,
-    String about) async {
+Future addBusiness(
+    {String shopName,
+    String phone,
+    String email,
+    String address,
+    String about}) async {
   final MutationOptions query = MutationOptions(
       document: mutation_addBusiness,
       variables: <String, dynamic>{
@@ -146,5 +152,36 @@ Future addBusiness(String shopName, String phone, String email, String address,
       result.data != null && result.data["addBusiness"] != null
           ? result.data["addBusiness"]
           : null;
+  return resp;
+}
+
+
+
+//  profilepic: ,address:"",city:"",state:"",district:"",pincode:"",twitter:"",facebook:"",)
+const String query_listBusiness = r'''
+  query{
+  getBusiness{
+    status
+    total
+    list{
+      createdAt
+      shopName
+      
+    }
+  }
+}
+''';
+
+Future getBusiness() async {
+  final MutationOptions query = MutationOptions(document: query_listBusiness,);
+  final client = await getGraphqlClient();
+  final QueryResult result = await client.mutate(query);
+  if (result.hasErrors) {
+    return result.errors[0].toString();
+  }
+  Map<String, dynamic> resp =
+  result.data != null && result.data["getBusiness"] != null
+      ? result.data["getBusiness"]
+      : null;
   return resp;
 }

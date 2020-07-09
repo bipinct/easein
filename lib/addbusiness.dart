@@ -1,3 +1,5 @@
+import 'package:easein/api/graphql_handler.dart';
+import 'package:easein/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter/gestures.dart';
@@ -16,6 +18,12 @@ class _AddBusinessState extends State<AddBusiness> {
   bool readOnly = false;
   bool showSegmentedControl = true;
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  TextEditingController _text1 = new TextEditingController();
+  TextEditingController _text2 = new TextEditingController();
+  TextEditingController _text3 = new TextEditingController();
+  TextEditingController _text4 = new TextEditingController();
+  TextEditingController _text5 = new TextEditingController();
+  TextEditingController _text6 = new TextEditingController();
 
   final ValueChanged _onChanged = (val) => print(val);
   var genderOptions = ['Male', 'Female', 'Other'];
@@ -35,17 +43,13 @@ class _AddBusinessState extends State<AddBusiness> {
             child: ListView(
               children: <Widget>[
                 FormBuilder(
-                  // context,
                   key: _fbKey,
-                  // autovalidate: true,
-                  initialValue: {
-                    'movie_rating': 3,
-                  },
                   readOnly: false,
                   child: Column(
                     children: <Widget>[
                       FormBuilderTextField(
                         attribute: 'businessName',
+                        controller: _text1,
                         decoration: const InputDecoration(
                           labelText: 'Business name',
                         ),
@@ -55,15 +59,15 @@ class _AddBusinessState extends State<AddBusiness> {
                         },
                         validators: [
                           FormBuilderValidators.required(),
-                          FormBuilderValidators.numeric(),
-                          // FormBuilderValidators.max(70),
+                           FormBuilderValidators.max(70),
                           FormBuilderValidators.minLength(2, allowEmpty: true),
                         ],
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.text,
                       ),
                       SizedBox(height: 15),
                       FormBuilderTextField(
                         attribute: 'address',
+                        controller: _text2,
                         decoration: const InputDecoration(
                           labelText: 'Address',
                         ),
@@ -73,8 +77,7 @@ class _AddBusinessState extends State<AddBusiness> {
                         },
                         validators: [
                           FormBuilderValidators.required(),
-                          FormBuilderValidators.numeric(),
-                          // FormBuilderValidators.max(70),
+                           FormBuilderValidators.max(300),
                           FormBuilderValidators.minLength(2, allowEmpty: true),
                         ],
                         keyboardType: TextInputType.text,
@@ -82,6 +85,7 @@ class _AddBusinessState extends State<AddBusiness> {
                       SizedBox(height: 15),
                       FormBuilderPhoneField(
                         attribute: 'phone_number1',
+                        controller: _text3,
 //                        initialValue: '+91',
                         // defaultSelectedCountryIsoCode: 'KE',
                         cursorColor: Colors.black,
@@ -100,11 +104,12 @@ class _AddBusinessState extends State<AddBusiness> {
                               errorText: 'This field reqired'),
                           FormBuilderValidators.minLength(10, allowEmpty: false)
                         ],
+                        keyboardType: TextInputType.number,
                       ),
                       SizedBox(height: 15),
-
                       FormBuilderTextField(
                         attribute: 'email',
+                        controller: _text4,
                         decoration: const InputDecoration(
                           labelText: 'Email',
                         ),
@@ -114,8 +119,7 @@ class _AddBusinessState extends State<AddBusiness> {
                         },
                         validators: [
                           FormBuilderValidators.required(),
-                          FormBuilderValidators.numeric(),
-                          // FormBuilderValidators.max(70),
+                           FormBuilderValidators.max(70),
                           FormBuilderValidators.minLength(5, allowEmpty: true),
                         ],
                         keyboardType: TextInputType.emailAddress,
@@ -123,18 +127,18 @@ class _AddBusinessState extends State<AddBusiness> {
                       SizedBox(height: 15),
                       FormBuilderTextField(
                         attribute: 'about',
+                        controller: _text5,
                         decoration: const InputDecoration(
-                          labelText: 'About Business',
-                          hintText: "Example : Computer shop sales and services "
-                        ),
+                            labelText: 'About Business',
+                            hintText:
+                                "Example : Computer shop sales and services "),
                         onChanged: _onChanged,
                         valueTransformer: (text) {
                           return text == null ? null : num.tryParse(text);
                         },
                         validators: [
                           FormBuilderValidators.required(),
-                          FormBuilderValidators.numeric(),
-                          // FormBuilderValidators.max(70),
+                           FormBuilderValidators.max(200),
                           FormBuilderValidators.minLength(4, allowEmpty: true),
                         ],
                         keyboardType: TextInputType.text,
@@ -142,6 +146,7 @@ class _AddBusinessState extends State<AddBusiness> {
                       SizedBox(height: 15),
                       FormBuilderTextField(
                         attribute: 'cordinates',
+                        controller: _text6,
                         decoration: const InputDecoration(
                           labelText: 'Location Coordinates',
                         ),
@@ -150,8 +155,8 @@ class _AddBusinessState extends State<AddBusiness> {
                           return text == null ? null : num.tryParse(text);
                         },
                         validators: [
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.numeric(),
+//                          FormBuilderValidators.required(),
+//                          FormBuilderValidators.numeric(),
                           // FormBuilderValidators.max(70),
                           FormBuilderValidators.minLength(2, allowEmpty: true),
                         ],
@@ -172,16 +177,19 @@ class _AddBusinessState extends State<AddBusiness> {
                         ),
                         onPressed: () {
                           setState(() {
-                            loading= true;
+                            loading = true;
                           });
                           if (_fbKey.currentState.saveAndValidate()) {
-
-
-
+                            print("...validatedd.....");
+                            addBusinessAction();
 //                            print(_fbKey.currentState.value['contact_person']
 //                                .runtimeType);
 //                            print(_fbKey.currentState.value);
                           } else {
+                            setState(() {
+                              loading = false;
+                            });
+                            print("...validatedd. lllllllllllllll....");
 //                            print(_fbKey.currentState.value['contact_person']
 //                                .runtimeType);
 //                            print(_fbKey.currentState.value);
@@ -223,5 +231,30 @@ class _AddBusinessState extends State<AddBusiness> {
         ]));
   }
 
-//  async addBusiness()
+  addBusinessAction() async {
+    var result = await addBusiness(
+      shopName: _text1.text,
+      address: _text2.text,
+      phone: _text3.text,
+      email: _text4.text,
+      about: _text5.text,
+    );
+    print("************************");
+    print("************************");
+    print("************************");
+//    print(result["status"]);
+    print("************************");
+    print("************************");
+    print("************************");
+    if(result != null ){
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+    }else{
+
+    }
+    setState(() {
+      loading= false;
+    });
+
+  }
 }
