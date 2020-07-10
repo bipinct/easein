@@ -166,6 +166,7 @@ const String query_listBusiness = r'''
     list{
       createdAt
       shopName
+      address
       
     }
   }
@@ -182,6 +183,40 @@ Future getBusiness() async {
   Map<String, dynamic> resp =
   result.data != null && result.data["getBusiness"] != null
       ? result.data["getBusiness"]
+      : null;
+  return resp;
+}
+
+const String query_activityLog = r'''
+ query{
+ activityLog{
+  total
+  list{
+    activityId
+    createdAt
+    user{
+      name
+      phone1
+    }
+    business{
+      shopName
+      address
+    }
+  }
+}
+}
+''';
+
+Future getActivityLog() async {
+  final MutationOptions query = MutationOptions(document: query_activityLog,);
+  final client = await getGraphqlClient();
+  final QueryResult result = await client.mutate(query);
+  if (result.hasErrors) {
+    return result.errors[0].toString();
+  }
+  Map<String, dynamic> resp =
+  result.data != null && result.data["activityLog"] != null
+      ? result.data["activityLog"]
       : null;
   return resp;
 }
