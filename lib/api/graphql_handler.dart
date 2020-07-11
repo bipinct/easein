@@ -16,6 +16,7 @@ getGraphqlClient() async {
 makeHttpLink() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   String token = pref.getString("x-token");
+  print(token);
   HttpLink _httpLink;
   if (token != null) {
     _httpLink = HttpLink(uri: API_URL, headers: {"x-token": token});
@@ -167,7 +168,7 @@ const String query_listBusiness = r'''
       createdAt
       shopName
       address
-      
+      publicid
     }
   }
 }

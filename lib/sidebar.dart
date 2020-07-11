@@ -1,7 +1,9 @@
 import 'package:easein/addbusiness.dart';
 import 'package:easein/listBusiness.dart';
 import 'package:easein/profile.dart';
+import 'package:easein/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Widget SidebBar(BuildContext context) {
   return Drawer(
@@ -58,6 +60,19 @@ Widget SidebBar(BuildContext context) {
         onTap: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => UpdateProfile()));
+        },
+      ),
+      ListTile(
+        title: Text('Logout'),
+        onTap: () async{
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+           prefs.remove("x-token");
+          prefs.remove("businessList");
+          prefs.clear();
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => Splash()),
+              ModalRoute.withName("/"));
         },
       ),
     ],
