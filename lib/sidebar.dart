@@ -13,16 +13,29 @@ Widget SidebBar({BuildContext context, User userProfile}) {
     padding: EdgeInsets.zero,
     children: <Widget>[
       DrawerHeader(
-        child: Row(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Profile',
-              style: TextStyle(color: Colors.white),
+              'PROFILE',
+              style: TextStyle(color: Colors.white24,fontWeight: FontWeight.bold),
             ),
             userProfile !=null ?
             Text(
               userProfile.name,
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.bold),
+            ): Wrap(),
+            userProfile !=null ?
+            Text(
+              userProfile.phone1,
+              style: TextStyle(color: Colors.white70,fontSize: 16),
+            ): Wrap(),
+
+            userProfile !=null ?
+            Text(
+              userProfile.address,
+              style: TextStyle(color: Colors.white54,fontSize: 14),
             ): Wrap(),
 
           ],
@@ -37,24 +50,24 @@ Widget SidebBar({BuildContext context, User userProfile}) {
           Navigator.pop(context);
         },
       ),
-      ListTile(
-        title: Text('My Visits'),
-        onTap: () {
-          Navigator.pop(context);
-        },
-      ),
-      ListTile(
-        title: Text('My Visits'),
-        onTap: () {
-          Navigator.pop(context);
-        },
-      ),
-      ListTile(
-        title: Text('My QR'),
-        onTap: () {
-          Navigator.pop(context);
-        },
-      ),
+//      ListTile(
+//        title: Text('My Visits'),
+//        onTap: () {
+//          Navigator.pop(context);
+//        },
+//      ),
+//      ListTile(
+//        title: Text('My Visits'),
+//        onTap: () {
+//          Navigator.pop(context);
+//        },
+//      ),
+//      ListTile(
+//        title: Text('My QR'),
+//        onTap: () {
+//          Navigator.pop(context);
+//        },
+//      ),
       ListTile(
         title: Text('My Businesses'),
         onTap: () {
@@ -69,13 +82,13 @@ Widget SidebBar({BuildContext context, User userProfile}) {
               context, MaterialPageRoute(builder: (context) => AddBusiness()));
         },
       ),
-      ListTile(
-        title: Text('Profile'),
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => UpdateProfile()));
-        },
-      ),
+//      ListTile(
+//        title: Text('Profile'),
+//        onTap: () {
+//          Navigator.push(context,
+//              MaterialPageRoute(builder: (context) => UpdateProfile()));
+//        },
+//      ),
       ListTile(
         title: Text('Logout'),
         onTap: () async {

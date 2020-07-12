@@ -7,11 +7,12 @@ import 'package:easein/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 getBusinessList() async {
+  print("....l is...");
   var businessesLF = await getBusiness();
   List<dynamic> resp = businessesLF != null && businessesLF["list"] != null
       ? businessesLF["list"]
       : null;
-
+print(resp);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   List<Business> fetchedBusinessList = [];
   var bizLis = [];
@@ -30,7 +31,7 @@ getBusinessList() async {
   return fetchedBusinessList;
 }
 
-updateProfile(
+saveProfileToCache(
     {String email,
     String phone,
     String name,
@@ -47,12 +48,18 @@ updateProfile(
   prefs.setString("profile", jsonEncode(_user));
 }
 
-getProfile() async {
+Future<User> getProfile() async {
   User _up;
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String profile = prefs.getString("profile");
   if (profile != null) {
-    _up = jsonDecode(profile);
+    var _pdata = jsonDecode(profile);
+    _up = new User(
+        createdAt: _pdata["createdAt"],
+        name: _pdata["name"],
+        email1: _pdata["email1"],
+        phone1: _pdata["phone1"],
+        address: _pdata["address"]);
   }
   return _up;
 }

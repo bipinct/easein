@@ -77,7 +77,14 @@ class _ListBusinessState extends State<ListBusiness> {
   }
 
   losdBusiness() async {
-    List<Business> bizList = await getBusinessList();
+    List<Business> bizList;
+    try{
+      bizList = await getBusinessList();
+      print(bizList);
+    }catch(e){
+
+    }
+
     setState(() {
       loading = false;
       businessList = bizList;

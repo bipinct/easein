@@ -1,4 +1,5 @@
 import 'package:easein/api/graphql_handler.dart';
+import 'package:easein/api/handlers.dart';
 import 'package:easein/components/error_alerts.dart';
 import 'package:easein/home.dart';
 import 'package:easein/porgressIndicator.dart';
@@ -169,6 +170,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
           name: _text1.text, address: _text2.text, email1: _text4.text);
 
       if (result != null && result["status"] == true) {
+        await saveProfileToCache(name: _text1.text, address: _text2.text, email: _text4.text , phone: _text3.text, createdAt: (new DateTime.now()).toString());
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => MyHomePage()));
       }

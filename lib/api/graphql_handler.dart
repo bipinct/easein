@@ -191,11 +191,11 @@ const String query_listBusiness = r'''
 ''';
 
 Future getBusiness() async {
-  final MutationOptions query = MutationOptions(
+  final QueryOptions query = QueryOptions(
     document: query_listBusiness,
   );
   final client = await getGraphqlClient();
-  final QueryResult result = await client.mutate(query);
+  final QueryResult result = await client.query(query);
   if (result.hasErrors) {
     return result.errors[0].toString();
   }
@@ -227,14 +227,21 @@ const String query_activityLog = r'''
 ''';
 
 Future getActivityLog() async {
-  final MutationOptions query = MutationOptions(
+  print("*********************************");
+  print("************query*********************");
+
+  final QueryOptions query = QueryOptions(
     document: query_activityLog,
   );
   final client = await getGraphqlClient();
-  final QueryResult result = await client.mutate(query);
+  final QueryResult result = await client.query(query);
   if (result.hasErrors) {
     return result.errors[0].toString();
   }
+  print(result);
+  print("*********************************");
+  print("*********************************");
+  print("*********************************");
   Map<String, dynamic> resp =
       result.data != null && result.data["activityLog"] != null
           ? result.data["activityLog"]

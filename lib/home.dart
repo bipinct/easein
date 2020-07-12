@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   loadUserInfo() async {
-    User _up = getProfile();
+    User _up = await getProfile();
     setState(() {
       userProfile = _up;
     });
@@ -65,6 +65,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: Text(
                   EaseinString.titleActivityLogs,
                   style: EaseInTheme.Heading,
+
+                ),
+                trailing: FlatButton(
+                  child: Icon(Icons.refresh),
+                  onPressed: (){
+                    activityLog();
+                  },
                 ),
               ),
               ...activityLogListBuilder(context, activityLogList)
@@ -85,16 +92,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future _scan() async {
-    print("....oyeeeee..............");
     String barcode = await scanner.scan();
-    print("..scanned striung...."+barcode);
+    setState(() {
+      loading = true;
+    });
     var now = new DateTime.now();
-
-
     try {
       var result =
       await addActivityLog(token: barcode, requestId: now.toString());
-      print(result);
+      if(result != null && result["status"] != null && result["status"] == true){
+        await activityLog();
+      }
+
     } catch (e) {
       print(" ... error in network call.....");
       print(e);
@@ -104,11 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       errorAlert(context, errorType);
     }
-
-//
-////    f24b6ca628a324955bf11bff203c3e162f1bb42a4a395503803936bf97350cd501cbf57fc39fb5f78f707841eb343c0b
-//
-//    print(barcode);
+    setState(() {
+      loading = false;
+    });
   }
 
   updateStore(_datafrom) {
