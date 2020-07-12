@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:easein/api/graphql_handler.dart';
+import 'package:easein/components/error_alerts.dart';
+import 'package:easein/porgressIndicator.dart';
 import 'package:easein/verifyotp.dart';
 import 'package:flutter/material.dart';
 
@@ -64,16 +66,7 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
-          loading
-              ? Container(
-                  width: size.width,
-                  height: size.height,
-                  color: Colors.black38,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : Wrap()
+          easeinProgressIndicator(context, loading)
         ]));
   }
 
@@ -81,14 +74,28 @@ class _LoginState extends State<Login> {
     setState(() {
       loading = true;
     });
-    var result = await signInEnterPhoneNumber(textEditingController.text);
-    print(result);
-    if (result != null && result["status"] == true ) {
-       Navigator.push(context, MaterialPageRoute(builder: (context)=> VerifyOTP(phoneNumber: textEditingController.text)));
-    } else {}
+    try {
+      var result = await signInEnterPhoneNumber(textEditingController.text);
+      print(result);
+      if (result != null && result["status"] == true) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    VerifyOTP(phoneNumber: textEditingController.text)));
+      } else {}
+    } catch (e) {
+      print(" ... error in network call.....");
+      print(e);
+      int errorType = 0;
+      if(e.toString().indexOf("Failed host lookup") != -1){
+        errorType = 1;
+      }
+      errorAlert(context, errorType);
+    }
+
     setState(() {
       loading = false;
     });
-
   }
 }

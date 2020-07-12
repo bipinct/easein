@@ -1,18 +1,32 @@
 import 'package:easein/addbusiness.dart';
 import 'package:easein/listBusiness.dart';
+import 'package:easein/model/user.dart';
 import 'package:easein/profile.dart';
 import 'package:easein/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Widget SidebBar(BuildContext context) {
+Widget SidebBar({BuildContext context, User userProfile}) {
   return Drawer(
       child: ListView(
     // Important: Remove any padding from the ListView.
     padding: EdgeInsets.zero,
     children: <Widget>[
       DrawerHeader(
-        child: Text('Drawer Header'),
+        child: Row(
+          children: <Widget>[
+            Text(
+              'Profile',
+              style: TextStyle(color: Colors.white),
+            ),
+            userProfile !=null ?
+            Text(
+              userProfile.name,
+              style: TextStyle(color: Colors.white),
+            ): Wrap(),
+
+          ],
+        ),
         decoration: BoxDecoration(
           color: Colors.blue,
         ),
@@ -64,9 +78,9 @@ Widget SidebBar(BuildContext context) {
       ),
       ListTile(
         title: Text('Logout'),
-        onTap: () async{
+        onTap: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
-           prefs.remove("x-token");
+          prefs.remove("x-token");
           prefs.remove("businessList");
           prefs.clear();
           Navigator.pushAndRemoveUntil(

@@ -8,7 +8,7 @@ Widget qrPreview(BuildContext context, Business business) {
       ? Column(
           children: <Widget>[
             QrImage(
-              data: business.shopName,
+              data: business.qrcodeString,
               version: QrVersions.auto,
               size: size.width,
             ),

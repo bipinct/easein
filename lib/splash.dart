@@ -5,6 +5,7 @@ import 'package:easein/home.dart';
 import 'package:easein/listBusiness.dart';
 import 'package:easein/login.dart';
 import 'package:easein/main.dart';
+import 'package:easein/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -98,9 +99,15 @@ class _SplashState extends State<Splash> {
   navigate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('x-token');
+    String profile = prefs.getString('profile');
     if (token != null) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+      if (profile == null) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => UpdateProfile()));
+      } else {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => MyHomePage()));
+      }
 //          context, MaterialPageRoute(builder: (context) => ListBusiness()));
 //          context, MaterialPageRoute(builder: (context) => AddBusiness()));
     } else {

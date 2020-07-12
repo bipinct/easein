@@ -63,6 +63,14 @@ const String mutation_signInVerifyOTP = r'''
     status
     message
     token
+    enableOnboarding
+    user{
+     createdAt
+      name
+      phone1
+      email1
+      address
+      }
   }
 }
 ''';
@@ -98,8 +106,13 @@ const String mutation_updateProfile = r'''
 }
 ''';
 
-Future updateProfile(String name, String phone2, String email1, String email2,
-    String address, String aadharNo) async {
+Future updateProfile(
+    {String name,
+    String phone2,
+    String email1,
+    String email2,
+    String address,
+    String aadharNo}) async {
   final MutationOptions query = MutationOptions(
       document: mutation_updateProfile,
       variables: <String, dynamic>{
@@ -115,7 +128,11 @@ Future updateProfile(String name, String phone2, String email1, String email2,
   if (result.hasErrors) {
     return result.errors[0].toString();
   }
-  return result.data;
+  Map<String, dynamic> resp =
+      result.data != null && result.data["updateProfile"] != null
+          ? result.data["updateProfile"]
+          : null;
+  return resp;
 }
 
 //  profilepic: ,address:"",city:"",state:"",district:"",pincode:"",twitter:"",facebook:"",)
@@ -156,8 +173,6 @@ Future addBusiness(
   return resp;
 }
 
-
-
 //  profilepic: ,address:"",city:"",state:"",district:"",pincode:"",twitter:"",facebook:"",)
 const String query_listBusiness = r'''
   query{
@@ -169,22 +184,25 @@ const String query_listBusiness = r'''
       shopName
       address
       publicid
+      qrcodeString
     }
   }
 }
 ''';
 
 Future getBusiness() async {
-  final MutationOptions query = MutationOptions(document: query_listBusiness,);
+  final MutationOptions query = MutationOptions(
+    document: query_listBusiness,
+  );
   final client = await getGraphqlClient();
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
     return result.errors[0].toString();
   }
   Map<String, dynamic> resp =
-  result.data != null && result.data["getBusiness"] != null
-      ? result.data["getBusiness"]
-      : null;
+      result.data != null && result.data["getBusiness"] != null
+          ? result.data["getBusiness"]
+          : null;
   return resp;
 }
 
@@ -209,15 +227,46 @@ const String query_activityLog = r'''
 ''';
 
 Future getActivityLog() async {
-  final MutationOptions query = MutationOptions(document: query_activityLog,);
+  final MutationOptions query = MutationOptions(
+    document: query_activityLog,
+  );
   final client = await getGraphqlClient();
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
     return result.errors[0].toString();
   }
   Map<String, dynamic> resp =
-  result.data != null && result.data["activityLog"] != null
-      ? result.data["activityLog"]
-      : null;
+      result.data != null && result.data["activityLog"] != null
+          ? result.data["activityLog"]
+          : null;
+  return resp;
+}
+
+//  profilepic: ,address:"",city:"",state:"",district:"",pincode:"",twitter:"",facebook:"",)
+const String mutation_addActivityLog = r'''
+  mutation($token:String,$requestId:String){
+  addActivity(token: $token,requestId:$requestId){
+  status
+  message
+
+  }
+}
+''';
+
+Future addActivityLog({String token, String requestId}) async {
+  final MutationOptions query = MutationOptions(
+      document: mutation_addActivityLog,
+      variables: <String, dynamic>{'token': token, 'requestId': requestId});
+  final client = await getGraphqlClient();
+  final QueryResult result = await client.mutate(query);
+  if (result.hasErrors) {
+    return result.errors[0].toString();
+  }
+  Map<String, dynamic> resp =
+      result.data != null && result.data["addActivity"] != null
+          ? result.data["addActivity"]
+          : null;
+  print(resp);
+  print(":::::::::::::::::::");
   return resp;
 }

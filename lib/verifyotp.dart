@@ -1,6 +1,9 @@
 import 'package:easein/api/graphql_handler.dart';
+import 'package:easein/components/error_alerts.dart';
 import 'package:easein/home.dart';
 import 'package:easein/main.dart';
+import 'package:easein/porgressIndicator.dart';
+import 'package:easein/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -65,16 +68,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
               ),
             ),
           ),
-          loading
-              ? Container(
-                  width: size.width,
-                  height: size.height,
-                  color: Colors.black38,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : Wrap()
+          easeinProgressIndicator(context, loading)
         ]));
   }
 
@@ -82,16 +76,39 @@ class _VerifyOTPState extends State<VerifyOTP> {
     setState(() {
       loading = true;
     });
-    var result =
-        await signInVerifyOTP(widget.phoneNumber, textEditingController.text);
-    print("ppppppppppp");
-    print(result);
-    if (result != null && result["status"] == true) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('x-token', result["token"]);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MyHomePage()));
-    } else {}
+    try {
+      var result =
+          await signInVerifyOTP(widget.phoneNumber, textEditingController.text);
+      print(result);
+      if (result != null && result["status"] == true) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('x-token', result["token"]);
+        await prefs.setString('phonenumber', widget.phoneNumber);
+        if (result["enableOnboarding"] == null ||
+            result["enableOnboarding"] == true) {
+          await prefs.setString('profile', null);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => UpdateProfile()));
+        } else {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MyHomePage()));
+        }
+      } else {}
+    } catch (e) {
+      print(" ... error in network call.....");
+      print(e);
+      int errorType = 2;
+      if (e.toString().indexOf("Failed host lookup") != -1) {
+        errorType = 1;
+      } else if (e
+              .toString()
+              .indexOf("Cannot return null for non-nullable field") !=
+          -1) {
+        errorType = 2;
+      }
+      errorAlert(context, errorType);
+    }
+
     setState(() {
       loading = false;
     });

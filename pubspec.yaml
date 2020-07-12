@@ -11,8 +11,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  qrscan: ^0.2.17
+  qrscan:
+    git:
+      url: https://github.com/bipin000/qrcode_scanner.git
   qr_flutter: ^3.2.0
+
+  rflutter_alert: ^1.0.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

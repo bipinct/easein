@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:easein/api/graphql_handler.dart';
+import 'package:easein/api/handlers.dart';
 import 'package:easein/model/business.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -75,31 +76,11 @@ class _ListBusinessState extends State<ListBusiness> {
         ]));
   }
 
-  getBusinessList() async {
-    var businessesLF = await getBusiness();
-    List<dynamic> resp = businessesLF != null && businessesLF["list"] != null
-        ? businessesLF["list"]
-        : null;
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<Business> fetchedBusinessList = [];
-    var bizLis = [];
-    for (var i = 0; i < businessesLF["list"].length; i++) {
-      Business biz = Business(
-          address: businessesLF["list"][i]["address"],
-          shopName: businessesLF["list"][i]["shopName"],
-          createdAt: businessesLF["list"][i]["createdAt"],
-          publicid: businessesLF["list"][i]["publicid"]);
-      fetchedBusinessList.add(biz);
-    }
-
-
-
-    prefs.setString("businessList", jsonEncode(fetchedBusinessList));
-
+  losdBusiness() async {
+    List<Business> bizList = await getBusinessList();
     setState(() {
       loading = false;
-      businessList = fetchedBusinessList;
+      businessList = bizList;
     });
   }
 }

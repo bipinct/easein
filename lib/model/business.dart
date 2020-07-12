@@ -3,21 +3,30 @@ class Business {
   final String shopName;
   final String address;
   final String publicid;
+  final String qrcodeString;
+   bool isSelected;
 
-  Business({
-    this.createdAt,
-    this.shopName,
-    this.address,
-    this.publicid,
-  });
+  Business(
+      {this.createdAt,
+      this.shopName,
+      this.address,
+      this.publicid,
+      this.qrcodeString,
+      this.isSelected});
 
   Business copyWith(
-      {String createdAt, String shopName, String address, String publicid}) {
+      {String createdAt,
+      String shopName,
+      String address,
+      String publicid,
+      bool isSelected}) {
     return Business(
         createdAt: createdAt ?? this.createdAt,
         shopName: shopName ?? this.shopName,
         address: address ?? this.address,
-        publicid: publicid ?? this.publicid);
+        publicid: publicid ?? this.publicid,
+        qrcodeString: qrcodeString ?? this.qrcodeString,
+        isSelected: isSelected ?? this.isSelected);
   }
 
   dynamic toJson() {
@@ -25,7 +34,9 @@ class Business {
       'createdAt': createdAt,
       'shopName': shopName,
       'address': address,
-      'publicid': publicid
+      'publicid': publicid,
+      'qrcodeString': qrcodeString,
+      'isSelected': isSelected
     };
   }
 }

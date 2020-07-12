@@ -376,10 +376,12 @@ packages:
   qrscan:
     dependency: "direct main"
     description:
-      name: qrscan
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.17"
+      path: "."
+      ref: HEAD
+      resolved-ref: f6808c9950ec03c8a652ad87e35063863fdeda35
+      url: "https://github.com/bipin000/qrcode_scanner.git"
+    source: git
+    version: "0.2.18"
   quiver:
     dependency: transitive
     description:
@@ -401,6 +403,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0"
+  rflutter_alert:
+    dependency: "direct main"
+    description:
+      name: rflutter_alert
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   rxdart:
     dependency: transitive
     description:
