@@ -199,6 +199,7 @@ Future getBusiness() async {
   if (result.hasErrors) {
     return result.errors[0].toString();
   }
+  print("...result......");print(result.data);
   Map<String, dynamic> resp =
       result.data != null && result.data["getBusiness"] != null
           ? result.data["getBusiness"]

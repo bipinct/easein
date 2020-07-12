@@ -7,12 +7,10 @@ import 'package:easein/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 getBusinessList() async {
-  print("....l is...");
   var businessesLF = await getBusiness();
   List<dynamic> resp = businessesLF != null && businessesLF["list"] != null
       ? businessesLF["list"]
       : null;
-print(resp);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   List<Business> fetchedBusinessList = [];
   var bizLis = [];
