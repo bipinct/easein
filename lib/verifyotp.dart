@@ -1,7 +1,10 @@
 import 'package:easein/api/graphql_handler.dart';
+import 'package:easein/api/handlers.dart';
 import 'package:easein/components/error_alerts.dart';
 import 'package:easein/home.dart';
 import 'package:easein/main.dart';
+import 'package:easein/model/business.dart';
+import 'package:easein/model/user.dart';
 import 'package:easein/porgressIndicator.dart';
 import 'package:easein/profile.dart';
 import 'package:flutter/material.dart';
@@ -79,11 +82,22 @@ class _VerifyOTPState extends State<VerifyOTP> {
     try {
       var result =
           await signInVerifyOTP(widget.phoneNumber, textEditingController.text);
-      print(result);
       if (result != null && result["status"] == true) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('x-token', result["token"]);
         await prefs.setString('phonenumber', widget.phoneNumber);
+
+        if (result["user"] != null && result["user"]["name"] != "") {
+          await saveProfileToCache(
+              name: result["user"]["name"],
+              address: result["user"]["address"],
+              email: result["user"]["email1"],
+              phone: result["user"]["phone1"],
+              createdAt: result["user"]["createdAt"]);
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => MyHomePage()));
+        }
+
         if (result["enableOnboarding"] == null ||
             result["enableOnboarding"] == true) {
           await prefs.setString('profile', null);
