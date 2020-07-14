@@ -217,11 +217,13 @@ const String query_activityLog = r'''
     user{
       name
       phone1
+      address
     }
     business{
       shopName
       address
     }
+    isBusiness
   }
 }
 }

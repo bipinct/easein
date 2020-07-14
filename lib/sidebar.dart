@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Widget SidebBar({BuildContext context, User userProfile}) {
+  Size size = MediaQuery.of(context).size;
   return Drawer(
       child: ListView(
     // Important: Remove any padding from the ListView.
@@ -17,27 +18,27 @@ Widget SidebBar({BuildContext context, User userProfile}) {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'PROFILE',
-              style: TextStyle(color: Colors.white24,fontWeight: FontWeight.bold),
-            ),
-            userProfile !=null ?
-            Text(
-              userProfile.name,
-              style: TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.bold),
-            ): Wrap(),
-            userProfile !=null ?
-            Text(
-              userProfile.phone1,
-              style: TextStyle(color: Colors.white70,fontSize: 16),
-            ): Wrap(),
-
-            userProfile !=null ?
-            Text(
-              userProfile.address,
-              style: TextStyle(color: Colors.white54,fontSize: 14),
-            ): Wrap(),
-
+            userProfile != null
+                ? Text(
+                    userProfile.name,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  )
+                : Wrap(),
+            userProfile != null
+                ? Text(
+                    userProfile.phone1,
+                    style: TextStyle(color: Colors.white70, fontSize: 16),
+                  )
+                : Wrap(),
+            userProfile != null
+                ? Text(
+                    userProfile.address,
+                    style: TextStyle(color: Colors.white54, fontSize: 14),
+                  )
+                : Wrap(),
           ],
         ),
         decoration: BoxDecoration(
@@ -82,6 +83,7 @@ Widget SidebBar({BuildContext context, User userProfile}) {
               context, MaterialPageRoute(builder: (context) => AddBusiness()));
         },
       ),
+
 //      ListTile(
 //        title: Text('Profile'),
 //        onTap: () {

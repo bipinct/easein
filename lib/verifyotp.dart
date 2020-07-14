@@ -96,10 +96,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
               createdAt: result["user"]["createdAt"]);
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => MyHomePage()));
-        }
-
-        if (result["enableOnboarding"] == null ||
-            result["enableOnboarding"] == true) {
+        }else  if (result["enableOnboarding"] == null ||  result["enableOnboarding"] == true) {
           await prefs.setString('profile', null);
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => UpdateProfile()));

@@ -126,6 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   activityLog() async {
     var activities = await getActivityLog();
+    print("::::::::::::::::::::::::::::::::::::::::");
+    print(activities);
     List<dynamic> resp = activities != null && activities["list"] != null
         ? activities["list"]
         : null;
