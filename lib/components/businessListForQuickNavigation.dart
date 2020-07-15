@@ -39,19 +39,6 @@ Widget businessListForQuickNavigation(BuildContext buildContext,
                       onTap: () async {
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
-
-                        businessQR.map((e) {
-                          if (selectedBusinessForQRView == null) {
-                            e.isSelected = false;
-                          } else {
-                            if (e.shopName ==
-                                selectedBusinessForQRView.shopName) {
-                              e.isSelected = true;
-                            }
-                          }
-                          return e;
-                        });
-
                         if (selectedBusinessForQRView != null &&
                             selectedBusinessForQRView.shopName == bis.shopName)
                           selectedBusinessForQRView = null;
@@ -59,7 +46,24 @@ Widget businessListForQuickNavigation(BuildContext buildContext,
                           selectedBusinessForQRView = bis;
                         updatetostate(selectedBusinessForQRView);
 
-                        prefs.setString("businessList", jsonEncode(businessQR));
+                        List<Business>  _businessQR = businessQR.map((e) {
+
+                          if (selectedBusinessForQRView == null) {
+                            e.isSelected = false;
+                          } else {
+                            if (e.shopName ==
+                                selectedBusinessForQRView.shopName) {
+                              e.isSelected = true;
+                            }else{
+                              e.isSelected = false;
+                            }
+                          }
+                          return e;
+                        }).toList();
+
+
+                    print(jsonEncode(_businessQR));
+                        prefs.setString("businessList", jsonEncode(_businessQR));
                       }, // or use onPressed: () {}
                     ),
                   ))

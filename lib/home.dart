@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     getLocalBusinessList();
-    losdBusiness();
+    loadBusiness();
     activityLog();
     loadUserInfo();
   }
@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double padTop = businessQR.length > 0 ? 60 : 10;
-    print(selectedBusinessForQRView);
+
     int biznum = 1;
     return Scaffold(
       appBar: AppBar(
@@ -126,8 +126,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   activityLog() async {
     var activities = await getActivityLog();
-    print("::::::::::::::::::::::::::::::::::::::::");
-    print(activities);
     List<dynamic> resp = activities != null && activities["list"] != null
         ? activities["list"]
         : null;
@@ -140,10 +138,11 @@ class _MyHomePageState extends State<MyHomePage> {
   getLocalBusinessList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var storedBizlist = prefs.getString("businessList");
+    var businessSelected;
     List<Business> allBiz = [];
     if (storedBizlist != null) {
       var bizitems = jsonDecode(storedBizlist);
-      print(bizitems);
+
       for (var i = 0; i < bizitems.length; i++) {
         allBiz.add(Business(
             shopName: bizitems[i]["shopName"],
@@ -151,20 +150,24 @@ class _MyHomePageState extends State<MyHomePage> {
             createdAt: bizitems[i]["createdAt"],
             address: bizitems[i]["address"],
             qrcodeString: bizitems[i]["qrcodeString"],
-            isSelected: false));
+            isSelected:  bizitems[i]["isSelected"] || false));
       }
+      businessSelected = allBiz.firstWhere((Business element) => element.isSelected == true, orElse: ()=> null);
     }
     setState(() {
       businessQR = allBiz;
+      selectedBusinessForQRView =businessSelected;
     });
   }
 
-  losdBusiness() async {
+  loadBusiness() async {
     List<Business> bizList = await getBusinessList();
-
+    var businessSelected = bizList.firstWhere((Business element) => element.isSelected == true, orElse: ()=> null);
     setState(() {
       loading = false;
       businessQR = bizList;
     });
   }
+
+
 }
