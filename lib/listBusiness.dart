@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:easein/api/handlers.dart';
 import 'package:easein/model/business.dart';
 import 'package:easein/porgressIndicator.dart';
+import 'package:easein/viewbusiness.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,7 +39,7 @@ class _ListBusinessState extends State<ListBusiness> {
                   itemCount: businessList.length,
                   separatorBuilder: (BuildContext context, int index) =>
                       Divider(
-                    color: Colors.purple,
+                    color: Colors.purple.shade200,
                   ),
                   itemBuilder: (context, i) {
                     return businessList[i] != null
@@ -47,14 +48,24 @@ class _ListBusinessState extends State<ListBusiness> {
                             subtitle: businessList[i].address != null
                                 ? Text(businessList[i].address)
                                 : Text(""),
-                            trailing: Icon(Icons.arrow_forward_ios),
-                            onTap: () {},
+                            trailing: FlatButton(child: Icon(Icons.delete_outline),onPressed: (){
+
+                            },),
+                            onTap: () {
+                              // view business details
+                              Navigator.push(
+                                  context, MaterialPageRoute(builder: (context) => ViewBusiness(business: businessList[i]  )));
+                            },
                             onLongPress: () {},
-                            leading: RaisedButton(
-                              // qr icon
-                              child: Icon(Icons.queue_play_next),
-                              onPressed: () {},
-                            ))
+                            leading:  CircleAvatar(
+                              radius: 20,
+                              backgroundColor: Colors.deepPurple,
+                              child: Text(
+                                avatarImage(businessList[i].shopName),
+                                style: TextStyle(color: Colors.white),
+                                key: new Key("avt_" + i.toString()),
+                              ),
+                            ),)
                         : Container(
                             height: 0,
                             width: 0,

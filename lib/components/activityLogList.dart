@@ -1,3 +1,4 @@
+import 'package:easein/api/handlers.dart';
 import 'package:easein/components/easein_strings.dart';
 import 'package:easein/components/empty_state.dart';
 import 'package:flutter/material.dart';
@@ -200,10 +201,3 @@ Widget businessInfoCardForUser(item, size, _business, _user, formatter, i) {
       ));
 }
 
-avatarImage(String txt) {
-  return txt
-      .split(" ")
-      .map((e) => e.length > 0 ? e.substring(0, 1) : "")
-      .join("")
-      .toUpperCase();
-}

@@ -61,3 +61,12 @@ Future<User> getProfile() async {
   }
   return _up;
 }
+
+
+avatarImage(String txt) {
+  return txt
+      .split(" ")
+      .map((e) => e.length > 0 ? e.substring(0, 1) : "")
+      .join("")
+      .toUpperCase();
+}
