@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easein/api/handlers.dart';
 import 'package:easein/model/business.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,12 +14,14 @@ Widget businessListForQuickNavigation(BuildContext buildContext,
   int biznum = 1;
   return businessQR.length > 0
       ? Container(
-          color: Colors.lime,
+    color: Colors.lime,
           padding: EdgeInsets.only(top: 10, bottom: 10),
           child: Row(
             mainAxisAlignment: talign,
             children: <Widget>[
-              ...businessQR.map((Business bis) => Material(
+              ...businessQR.map((Business bis) => Padding(
+                  padding: EdgeInsets.fromLTRB(6, 4, 6, 4),
+                  child: Material(
                     borderRadius: BorderRadius.circular(50),
                     color: Colors.blue,
                     child: InkWell(
@@ -27,15 +30,15 @@ Widget businessListForQuickNavigation(BuildContext buildContext,
                               selectedBusinessForQRView.isSelected == true
                           ? Colors.redAccent
                           : Colors.blue[900],
-                      child: SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: Center(
-                            child: Text(
-                              (biznum++).toString(),
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          )),
+                      child:
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.brown.shade800,
+                        child: Text(
+                          avatarImage(bis.shopName),
+                          key: new Key("avt_" + (biznum++).toString()),
+                        ),
+                      ),
                       onTap: () async {
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
@@ -46,27 +49,25 @@ Widget businessListForQuickNavigation(BuildContext buildContext,
                           selectedBusinessForQRView = bis;
                         updatetostate(selectedBusinessForQRView);
 
-                        List<Business>  _businessQR = businessQR.map((e) {
-
+                        List<Business> _businessQR = businessQR.map((e) {
                           if (selectedBusinessForQRView == null) {
                             e.isSelected = false;
                           } else {
                             if (e.shopName ==
                                 selectedBusinessForQRView.shopName) {
                               e.isSelected = true;
-                            }else{
+                            } else {
                               e.isSelected = false;
                             }
                           }
                           return e;
                         }).toList();
 
-
-                    print(jsonEncode(_businessQR));
-                        prefs.setString("businessList", jsonEncode(_businessQR));
+                        prefs.setString(
+                            "businessList", jsonEncode(_businessQR));
                       }, // or use onPressed: () {}
                     ),
-                  ))
+                  )))
             ],
           ),
         )

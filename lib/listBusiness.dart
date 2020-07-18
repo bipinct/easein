@@ -1,6 +1,10 @@
 import 'dart:convert';
 
+import 'package:easein/addbusiness.dart';
 import 'package:easein/api/handlers.dart';
+import 'package:easein/components/easein_strings.dart';
+import 'package:easein/components/easein_theme.dart';
+import 'package:easein/components/empty_state.dart';
 import 'package:easein/model/business.dart';
 import 'package:easein/porgressIndicator.dart';
 import 'package:easein/viewbusiness.dart';
@@ -72,7 +76,17 @@ class _ListBusinessState extends State<ListBusiness> {
                           );
                   },
                 )
-              : Wrap(),
+              : Center(child: Wrap(
+              children: <Widget>[
+                emptyState(EaseinString.noBusiness, RaisedButton(
+                  color: EaseInTheme.buttonColors,
+                  textColor: Colors.white,
+                onPressed: ()=> Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => AddBusiness())),
+                child: Text(EaseinString.addBusiness,),
+              ))
+            ]),
+          ),
           easeinProgressIndicator(context, loading)
         ]));
   }

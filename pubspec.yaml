@@ -15,7 +15,6 @@ dependencies:
     git:
       url: https://github.com/bipin000/qrcode_scanner.git
   qr_flutter: ^3.2.0
-
   rflutter_alert: ^1.0.3
 
   # The following adds the Cupertino Icons font to your application.
@@ -24,6 +23,7 @@ dependencies:
   shared_preferences:
   graphql_flutter: ^1.0.0+4
   flutter_form_builder: ^3.11.3
+  flutter_spinkit: "^4.1.2"
 
 dev_dependencies:
   flutter_test:
@@ -42,6 +42,8 @@ flutter:
   assets:
     - assets/logo.png
     - assets/Digital_India_logo.png
+    - assets/bg.jpg
+    - assets/scanicon.png
   fonts:
     - family: SourceSerifPro
       fonts:

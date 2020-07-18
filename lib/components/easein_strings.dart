@@ -4,6 +4,13 @@ class EaseinString {
   static const String appName = "Easein";
   static const String titleActivityLogs = "Activity Logs";
   static const String noActivityLogs = "No Activity Log";
+  static const String noBusiness = "No Business ";
+  static const String enterOTP = "Enter OTP";
+  static const String verify = "Verify";
+  static const String customerSupportNumber = "+91-9720191930";
+  static const String visited = "VISITED";
+  static const String visitor = "VISITOR";
+  static const String addBusiness = "Add a business";
 //  static const String home = "Home";
 //  static const String inbox = "inbox";
 //  static const String todos = "Todos";

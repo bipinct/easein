@@ -9,6 +9,15 @@ class EaseInTheme {
       color: Colors.purple,
       fontSize: 20,
       fontWeight: FontWeight.bold);
+
+  static const emptyString = TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.w300,
+      fontFamily: "SourceSerifPro",
+    fontSize: 20
+  );
+
+  static const buttonColors = Colors.indigoAccent;
 //  // bottom naviation text color
 //  static const Color b_n_text = Colors.white;
 //  static const int border_commentbox_top = 0xFFE0E0E0;

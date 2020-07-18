@@ -16,7 +16,6 @@ getGraphqlClient() async {
 makeHttpLink() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   String token = pref.getString("x-token");
-  print(token);
   HttpLink _httpLink;
   if (token != null) {
     _httpLink = HttpLink(uri: API_URL, headers: {"x-token": token});
@@ -43,11 +42,10 @@ Future signInEnterPhoneNumber(dynamic phoneNumber) async {
         'phoneNumber': phoneNumber.toString(),
       });
   final client = await getGraphqlClient();
-  print(phoneNumber);
-  print(client);
+
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
-    return result.errors[0].toString();
+    throw (result.errors[0].toString());
   }
 
   Map<String, dynamic> resp =
@@ -87,7 +85,7 @@ Future signInVerifyOTP(dynamic phoneNumber, dynamic otp) async {
   final client = await getGraphqlClient();
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
-    return result.errors[0].toString();
+    throw (result.errors[0].toString());
   }
   Map<String, dynamic> resp =
       result.data != null && result.data["verifyOTP"] != null
@@ -126,7 +124,7 @@ Future updateProfile(
   final client = await getGraphqlClient();
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
-    return result.errors[0].toString();
+    throw (result.errors[0].toString());
   }
   Map<String, dynamic> resp =
       result.data != null && result.data["updateProfile"] != null
@@ -164,7 +162,7 @@ Future addBusiness(
   final client = await getGraphqlClient();
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
-    return result.errors[0].toString();
+    throw (result.errors[0].toString());
   }
   Map<String, dynamic> resp =
       result.data != null && result.data["addBusiness"] != null
@@ -197,9 +195,9 @@ Future getBusiness() async {
   final client = await getGraphqlClient();
   final QueryResult result = await client.query(query);
   if (result.hasErrors) {
-    return result.errors[0].toString();
+    throw (result.errors[0].toString());
   }
-  print("...result......");print(result.data);
+
   Map<String, dynamic> resp =
       result.data != null && result.data["getBusiness"] != null
           ? result.data["getBusiness"]
@@ -230,21 +228,15 @@ const String query_activityLog = r'''
 ''';
 
 Future getActivityLog() async {
-  print("*********************************");
-  print("************query*********************");
-
   final QueryOptions query = QueryOptions(
     document: query_activityLog,
   );
   final client = await getGraphqlClient();
   final QueryResult result = await client.query(query);
   if (result.hasErrors) {
-    return result.errors[0].toString();
+    throw (result.errors[0].toString());
   }
-  print(result);
-  print("*********************************");
-  print("*********************************");
-  print("*********************************");
+
   Map<String, dynamic> resp =
       result.data != null && result.data["activityLog"] != null
           ? result.data["activityLog"]
@@ -252,7 +244,6 @@ Future getActivityLog() async {
   return resp;
 }
 
-//  profilepic: ,address:"",city:"",state:"",district:"",pincode:"",twitter:"",facebook:"",)
 const String mutation_addActivityLog = r'''
   mutation($token:String,$requestId:String){
   addActivity(token: $token,requestId:$requestId){
@@ -270,13 +261,12 @@ Future addActivityLog({String token, String requestId}) async {
   final client = await getGraphqlClient();
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
-    return result.errors[0].toString();
+    throw (result.errors[0].toString());
   }
   Map<String, dynamic> resp =
       result.data != null && result.data["addActivity"] != null
           ? result.data["addActivity"]
           : null;
-  print(resp);
-  print(":::::::::::::::::::");
+
   return resp;
 }

@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:easein/api/caching.dart';
+import 'package:easein/api/errror_handler.dart';
 import 'package:easein/api/graphql_handler.dart';
 import 'package:easein/api/handlers.dart';
 import 'package:easein/components/activityLogList.dart';
@@ -33,8 +35,10 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     getLocalBusinessList();
     loadBusiness();
-    activityLog();
+    cachedActivity();
+//    activityLog();
     loadUserInfo();
+    loadActivity();
   }
 
   loadUserInfo() async {
@@ -47,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    double padTop = businessQR.length > 0 ? 60 : 10;
+    double padTop = businessQR.length > 0 ? 80 : 10;
 
     int biznum = 1;
     return Scaffold(
@@ -65,12 +69,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: Text(
                   EaseinString.titleActivityLogs,
                   style: EaseInTheme.Heading,
-
                 ),
                 trailing: FlatButton(
                   child: Icon(Icons.refresh),
-                  onPressed: (){
-                    activityLog();
+                  onPressed: () {
+                    loadActivity();
                   },
                 ),
               ),
@@ -86,7 +89,9 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _scan,
         tooltip: 'Scan QR',
-        child: Icon(Icons.settings_overscan),
+        child: Image(
+          image: AssetImage("assets/scanicon.png"),
+        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
@@ -99,19 +104,14 @@ class _MyHomePageState extends State<MyHomePage> {
     var now = new DateTime.now();
     try {
       var result =
-      await addActivityLog(token: barcode, requestId: now.toString());
-      if(result != null && result["status"] != null && result["status"] == true){
-        await activityLog();
+          await addActivityLog(token: barcode, requestId: now.toString());
+      if (result != null &&
+          result["status"] != null &&
+          result["status"] == true) {
+        await loadActivity();
       }
-
     } catch (e) {
-      print(" ... error in network call.....");
-      print(e);
-      int errorType = 4;
-      if (e.toString().indexOf("Failed host lookup") != -1) {
-        errorType = 1;
-      }
-      errorAlert(context, errorType);
+      errorHandler(context,e.toString());
     }
     setState(() {
       loading = false;
@@ -124,14 +124,18 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  activityLog() async {
-    var activities = await getActivityLog();
-    List<dynamic> resp = activities != null && activities["list"] != null
-        ? activities["list"]
-        : null;
+  loadActivity() async {
+    var _loadFromApi = await loadActivityLogFromApi();
     setState(() {
       loading = false;
-      activityLogList = activities["list"];
+      activityLogList = _loadFromApi;
+    });
+  }
+
+  cachedActivity() async {
+    var _cha = await loadActivityFromCache();
+    setState(() {
+      activityLogList = _cha;
     });
   }
 
@@ -150,24 +154,26 @@ class _MyHomePageState extends State<MyHomePage> {
             createdAt: bizitems[i]["createdAt"],
             address: bizitems[i]["address"],
             qrcodeString: bizitems[i]["qrcodeString"],
-            isSelected:  bizitems[i]["isSelected"] || false));
+            isSelected: bizitems[i]["isSelected"] || false));
       }
-      businessSelected = allBiz.firstWhere((Business element) => element.isSelected == true, orElse: ()=> null);
+      businessSelected = allBiz.firstWhere(
+          (Business element) => element.isSelected == true,
+          orElse: () => null);
     }
     setState(() {
       businessQR = allBiz;
-      selectedBusinessForQRView =businessSelected;
+      selectedBusinessForQRView = businessSelected;
     });
   }
 
   loadBusiness() async {
     List<Business> bizList = await getBusinessList();
-    var businessSelected = bizList.firstWhere((Business element) => element.isSelected == true, orElse: ()=> null);
+    var businessSelected = bizList.firstWhere(
+        (Business element) => element.isSelected == true,
+        orElse: () => null);
     setState(() {
       loading = false;
       businessQR = bizList;
     });
   }
-
-
 }

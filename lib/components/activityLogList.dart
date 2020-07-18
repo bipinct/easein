@@ -8,7 +8,7 @@ List activityLogListBuilder(BuildContext context, activityLogList) {
   final DateFormat formatter = DateFormat('dd MMMM h:mm a ');
   Size size = MediaQuery.of(context).size;
   int i = 0;
-  return activityLogList.length > 0
+  return activityLogList != null &&  activityLogList.length > 0
       ? activityLogList.map((item) {
           i++;
           Map<String, dynamic> _user = item["user"];
@@ -20,7 +20,7 @@ List activityLogListBuilder(BuildContext context, activityLogList) {
               : businessInfoCardForUser(
                   item, size, _business, _user, formatter, i);
         }).toList()
-      : [emptyState(EaseinString.noActivityLogs)];
+      : [emptyState(EaseinString.noActivityLogs,null)];
 }
 
 Widget userInfoCardForBusiness(item, size, _business, _user, formatter, i) {
@@ -38,7 +38,7 @@ Widget userInfoCardForBusiness(item, size, _business, _user, formatter, i) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  "VISITOR",
+                  EaseinString.visitor,
                   style: TextStyle(
                       fontSize: 12,
                       color: Colors.white54,
@@ -134,7 +134,7 @@ Widget businessInfoCardForUser(item, size, _business, _user, formatter, i) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  "VISITED",
+                  EaseinString.visited,
                   style: TextStyle(
                       fontSize: 12,
                       color: Colors.white54,

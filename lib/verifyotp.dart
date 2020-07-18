@@ -1,5 +1,7 @@
+import 'package:easein/api/errror_handler.dart';
 import 'package:easein/api/graphql_handler.dart';
 import 'package:easein/api/handlers.dart';
+import 'package:easein/components/easein_strings.dart';
 import 'package:easein/components/error_alerts.dart';
 import 'package:easein/home.dart';
 import 'package:easein/main.dart';
@@ -8,6 +10,7 @@ import 'package:easein/model/user.dart';
 import 'package:easein/porgressIndicator.dart';
 import 'package:easein/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyOTP extends StatefulWidget {
@@ -27,52 +30,72 @@ class _VerifyOTPState extends State<VerifyOTP> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: Color(0xFF5c00d2),
-        body: Stack(children: <Widget>[
-          Center(
-            child: Container(
-              color: Colors.white,
-              margin: EdgeInsets.all(13.0),
-              padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-              child: Wrap(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        "Verify",
-                        style: TextStyle(fontSize: 30),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                          width: size.width - 100,
-                          height: 60,
-                          child: TextField(
-                            controller: textEditingController,
-                            keyboardType: TextInputType.number,
-                            maxLength: 10,
-                            maxLengthEnforced: true,
-                          )),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      RaisedButton(
-                        color: Colors.greenAccent,
-                        onPressed: () {
-                          verifyOtp();
-                        },
-                        child: Text("verify"),
-                      )
-                    ],
-                  )
-                ],
-              ),
+        body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [Color(0xff1A237E), Color(0xff0D47A1)]),
+              image: DecorationImage(
+                  image: AssetImage("assets/bg.jpg"),
+//              fit: BoxFit.cover,
+                  repeat: ImageRepeat.repeatX),
             ),
-          ),
-          easeinProgressIndicator(context, loading)
-        ]));
+            child: Stack(children: <Widget>[
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(color: Colors.black12, spreadRadius: 8),
+                    ],
+                  ),
+                  margin: EdgeInsets.all(13.0),
+                  padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+                  child: Wrap(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            EaseinString.enterOTP,
+                            style: TextStyle(fontSize: 30),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 60,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Container(
+                              width: size.width - 100,
+                              height: 60,
+                              child: TextField(
+                                controller: textEditingController,
+                                keyboardType: TextInputType.number,
+                                maxLength: 5,
+                                maxLengthEnforced: true,
+                              )),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          RaisedButton(
+                            color: Colors.greenAccent,
+                            onPressed: () {
+                              verifyOtp();
+                            },
+                            child: Text(EaseinString.verify),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              easeinProgressIndicator(context, loading)
+            ])));
   }
 
   verifyOtp() async {
@@ -87,7 +110,9 @@ class _VerifyOTPState extends State<VerifyOTP> {
         await prefs.setString('x-token', result["token"]);
         await prefs.setString('phonenumber', widget.phoneNumber);
 
-        if (result["user"] != null && result["user"]["name"] != "") {
+        if (result["user"] != null &&
+            result["user"]["name"] != "" &&
+            result["user"]["name"] != null) {
           await saveProfileToCache(
               name: result["user"]["name"],
               address: result["user"]["address"],
@@ -96,28 +121,16 @@ class _VerifyOTPState extends State<VerifyOTP> {
               createdAt: result["user"]["createdAt"]);
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => MyHomePage()));
-        }else  if (result["enableOnboarding"] == null ||  result["enableOnboarding"] == true) {
+        } else {
           await prefs.setString('profile', null);
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => UpdateProfile()));
-        } else {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => MyHomePage()));
         }
-      } else {}
-    } catch (e) {
-      print(" ... error in network call.....");
-      print(e);
-      int errorType = 2;
-      if (e.toString().indexOf("Failed host lookup") != -1) {
-        errorType = 1;
-      } else if (e
-              .toString()
-              .indexOf("Cannot return null for non-nullable field") !=
-          -1) {
-        errorType = 2;
+      } else {
+        errorAlert(context, 7);
       }
-      errorAlert(context, errorType);
+    } catch (e) {
+      errorHandler(context, e.toString());
     }
 
     setState(() {

@@ -1,3 +1,4 @@
+import 'package:easein/components/easein_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -20,6 +21,13 @@ errorAlert(BuildContext context, int errorType) {
     case 5:
       message = "Invalid QR code";
       break;
+    case 6:
+      message = "Invalid Phone Number";
+      break;
+    case 6:
+      message = "Error Login please contact "+ EaseinString.customerSupportNumber ;
+      break;
+
   }
   return Alert(context: context, title: title, desc: message).show();
 }
