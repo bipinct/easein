@@ -234,6 +234,7 @@ Future getActivityLog() async {
   final client = await getGraphqlClient();
   final QueryResult result = await client.query(query);
   if (result.hasErrors) {
+    print(result.errors[0]);
     throw (result.errors[0].toString());
   }
 
@@ -255,12 +256,18 @@ const String mutation_addActivityLog = r'''
 ''';
 
 Future addActivityLog({String token, String requestId}) async {
+
+  print("****************************addd****");
+  print("********************************");
   final MutationOptions query = MutationOptions(
       document: mutation_addActivityLog,
       variables: <String, dynamic>{'token': token, 'requestId': requestId});
   final client = await getGraphqlClient();
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
+    print(result.errors);
+    print("********************************");
+    print("********************************");
     throw (result.errors[0].toString());
   }
   Map<String, dynamic> resp =
@@ -268,5 +275,6 @@ Future addActivityLog({String token, String requestId}) async {
           ? result.data["addActivity"]
           : null;
 
+  print(result.data);
   return resp;
 }

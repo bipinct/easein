@@ -51,9 +51,6 @@ Future<User> getProfile() async {
   User _up;
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String profile = prefs.getString("profile");
-  print("***********ttttttttttttt********");
-  print(profile);
-  print("*******************");
   if (profile != null) {
     var _pdata = jsonDecode(profile);
     _up = new User(

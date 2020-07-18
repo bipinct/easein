@@ -2,10 +2,14 @@ import 'package:easein/login.dart';
 import 'package:easein/profile.dart';
 import 'package:easein/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
 void main() {
-  runApp(MyApp());
+//  WidgetsFlutterBinding.ensureInitialized();
+//  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((value) => (_){
+    runApp(MyApp());
+//  });
 }
 
 class MyApp extends StatelessWidget {
