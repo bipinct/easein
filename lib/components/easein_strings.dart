@@ -1,8 +1,9 @@
 class EaseinString {
   EaseinString._();
 
-  static const String ABOUT_URL = "https://flutter.dev";
-  static const String API_URL = "https://flutter.dev";
+  static const String ABOUT_URL = "http://ec2-13-233-224-39.ap-south-1.compute.amazonaws.com/about";
+  static const String TERMS_URL = "http://ec2-13-233-224-39.ap-south-1.compute.amazonaws.com/terms";
+  static const String API_URL = "http://ec2-13-233-224-39.ap-south-1.compute.amazonaws.com/graphql";
 
   static const String appName = "Easein";
   static const String titleActivityLogs = "Activity Logs";

@@ -4,6 +4,7 @@ import 'package:easein/api/errror_handler.dart';
 import 'package:easein/api/graphql_handler.dart';
 import 'package:easein/components/error_alerts.dart';
 import 'package:easein/porgressIndicator.dart';
+import 'package:easein/terms.dart';
 import 'package:easein/verifyotp.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController textEditingController = TextEditingController();
   bool loading = false;
+  bool checkedValue = true;
 
   @override
   Widget build(BuildContext context) {
@@ -68,19 +70,56 @@ class _LoginState extends State<Login> {
                                 maxLength: 10,
                                 maxLengthEnforced: true,
                               )),
+
+
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                              width: size.width - 100,
+                              height: 60,
+                              child:
+                              CheckboxListTile(
+                                title: Wrap(
+                                  alignment: WrapAlignment.start,
+                                  children: <Widget>[
+                                    Text("I agree ",style: TextStyle(fontSize: 11),),
+                                    GestureDetector(
+                                      onTap: ()=>Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Terms())),
+                                      child: Text("terms and condition",style: TextStyle(fontSize: 11),)
+                                    )
+
+                                  ],
+                                ),
+                                value: checkedValue,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    checkedValue = newValue;
+                                  });
+                                },
+                                controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
+                              )
+                          ),
                         ],
                       ),
                       Row(
                         children: <Widget>[
+
                           RaisedButton(
                             color: Colors.greenAccent,
-                            onPressed: () {
+                            disabledColor: Colors.greenAccent.shade400,
+                            onPressed: checkedValue ?  () {
                               print("..done....");
-//
                               signIn();
-                            },
+                            }: null,
                             child: Text("Get OTP"),
                           )
+
                         ],
                       )
                     ],
