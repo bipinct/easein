@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:easein/api/caching.dart';
 import 'package:easein/api/errror_handler.dart';
+import 'package:easein/api/firebase_messaging.dart';
 import 'package:easein/api/graphql_handler.dart';
 import 'package:easein/api/handlers.dart';
 import 'package:easein/components/activityLogList.dart';

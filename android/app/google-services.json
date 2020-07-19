@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "857282731359",
+    "firebase_url": "https://easein-b29f8.firebaseio.com",
+    "project_id": "easein-b29f8",
+    "storage_bucket": "easein-b29f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:857282731359:android:3d2b33a48fe76dec922aea",
+        "android_client_info": {
+          "package_name": "com.qubits.easein.easein"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "857282731359-f5tu2rasfrdnhht9kcrur2rgug0jni9t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNNQARhEO4bFGOFDOcvrCpFq54maR60Kw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "857282731359-f5tu2rasfrdnhht9kcrur2rgug0jni9t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

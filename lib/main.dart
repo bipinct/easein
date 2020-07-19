@@ -1,15 +1,18 @@
-import 'package:easein/login.dart';
-import 'package:easein/profile.dart';
+import 'package:easein/api/firebase_messaging.dart';
 import 'package:easein/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+FCMHelper  fcmHelper = new FCMHelper();
 
-void main() {
-//  WidgetsFlutterBinding.ensureInitialized();
-//  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((value) => (_){
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  fcmHelper.init();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
     runApp(MyApp());
-//  });
+  });
 }
 
 class MyApp extends StatelessWidget {

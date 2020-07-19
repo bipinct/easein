@@ -24,6 +24,8 @@ dependencies:
   graphql_flutter: ^1.0.0+4
   flutter_form_builder: ^3.11.3
   flutter_spinkit: "^4.1.2"
+  firebase_messaging:
+  flutter_local_notifications:
 
 dev_dependencies:
   flutter_test:

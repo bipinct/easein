@@ -10,7 +10,6 @@ Widget SidebBar({BuildContext context, User userProfile}) {
   Size size = MediaQuery.of(context).size;
   return Drawer(
       child: ListView(
-    // Important: Remove any padding from the ListView.
     padding: EdgeInsets.zero,
     children: <Widget>[
       DrawerHeader(
@@ -18,15 +17,38 @@ Widget SidebBar({BuildContext context, User userProfile}) {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            userProfile != null
-                ? Text(
-                    userProfile.name,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  )
-                : Wrap(),
+
+          Row(
+            children: <Widget>[
+              userProfile != null
+                  ? Container(
+                width: 200,
+                child:Text(
+                  userProfile.name,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                ) ,
+              )
+                  : Wrap(),
+              SizedBox(width: 10,),
+
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => UpdateProfile(user: userProfile,)));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(14),
+                    child: Icon(Icons.edit,color: Colors.white,),
+                  ),
+
+                ),
+            ],
+          ),
+
             userProfile != null
                 ? Text(
                     userProfile.phone1,
@@ -36,7 +58,7 @@ Widget SidebBar({BuildContext context, User userProfile}) {
             userProfile != null
                 ? Text(
                     userProfile.address,
-                    style: TextStyle(color: Colors.white54, fontSize: 14),
+              style: TextStyle(color: Colors.white54, fontSize: 14),
                   )
                 : Wrap(),
           ],
@@ -46,29 +68,12 @@ Widget SidebBar({BuildContext context, User userProfile}) {
         ),
       ),
       ListTile(
-        title: Text('My Profile'),
+        title: Text('Activity Logs'),
         onTap: () {
-          Navigator.pop(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ListBusiness()));
         },
       ),
-//      ListTile(
-//        title: Text('My Visits'),
-//        onTap: () {
-//          Navigator.pop(context);
-//        },
-//      ),
-//      ListTile(
-//        title: Text('My Visits'),
-//        onTap: () {
-//          Navigator.pop(context);
-//        },
-//      ),
-//      ListTile(
-//        title: Text('My QR'),
-//        onTap: () {
-//          Navigator.pop(context);
-//        },
-//      ),
       ListTile(
         title: Text('My Businesses'),
         onTap: () {
@@ -76,6 +81,7 @@ Widget SidebBar({BuildContext context, User userProfile}) {
               context, MaterialPageRoute(builder: (context) => ListBusiness()));
         },
       ),
+
       ListTile(
         title: Text('Add Business'),
         onTap: () {
@@ -83,14 +89,6 @@ Widget SidebBar({BuildContext context, User userProfile}) {
               context, MaterialPageRoute(builder: (context) => AddBusiness()));
         },
       ),
-
-//      ListTile(
-//        title: Text('Profile'),
-//        onTap: () {
-//          Navigator.push(context,
-//              MaterialPageRoute(builder: (context) => UpdateProfile()));
-//        },
-//      ),
       ListTile(
         title: Text('Logout'),
         onTap: () async {

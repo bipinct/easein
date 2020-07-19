@@ -14,7 +14,7 @@ List activityLogListBuilder(BuildContext context, activityLogList) {
           Map<String, dynamic> _user = item["user"];
           Map<String, dynamic> _business = item["business"];
 
-          return !item['isBusiness']
+          return item['isBusiness']
               ? userInfoCardForBusiness(
                   item, size, _business, _user, formatter, i)
               : businessInfoCardForUser(
@@ -54,37 +54,13 @@ Widget userInfoCardForBusiness(item, size, _business, _user, formatter, i) {
               ],
             ),
             SizedBox(height: 10,),
-//            Row(children: <Widget>[
-//              Container(
-//                  width: size.width - 40,
-//                  child: Text(
-//                    _business["shopName"] == null ? "-" : _business["shopName"],
-//                    style: TextStyle(fontSize: 20),
-//                    overflow: TextOverflow.fade,
-//                  ))
-//            ]),
-//            SizedBox(
-//              height: 10,
-//            ),
-//            Row(children: <Widget>[
-//              Container(
-//                  width: size.width - 40,
-//                  child: Text(
-//                    _business["address"] == null ? "-" : _business["address"],
-//                    style: TextStyle(fontSize: 14),
-//                    overflow: TextOverflow.fade,
-//                  ))
-//            ]),
-//            SizedBox(
-//              height: 10,
-//            ),
             Row(
               children: <Widget>[
                 CircleAvatar(
                   radius: 20,
                   backgroundColor: Colors.brown.shade800,
                   child: Text(
-                    avatarImage(_user["name"]),
+                    avatarImage(_business["shopName"]),
                     key: new Key("avt_" + i.toString()),
                   ),
                 ),
@@ -114,6 +90,7 @@ Widget userInfoCardForBusiness(item, size, _business, _user, formatter, i) {
                     ))
               ],
             ),
+
           ],
         ),
       ));

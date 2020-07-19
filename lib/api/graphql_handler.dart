@@ -233,8 +233,10 @@ Future getActivityLog() async {
   );
   final client = await getGraphqlClient();
   final QueryResult result = await client.query(query);
+  print(result.data);
   if (result.hasErrors) {
-    print(result.errors[0]);
+    print("**************************************1111");
+    print(result.errors);
     throw (result.errors[0].toString());
   }
 
@@ -277,4 +279,30 @@ Future addActivityLog({String token, String requestId}) async {
 
   print(result.data);
   return resp;
+}
+
+
+
+
+const String mutation_userPushToken = r'''
+  mutation($token:String!,$devicetype: String){
+    registerPushToken(token:$token,devicetype:$devicetype){ 
+    status
+    message     
+    }
+  }
+''';
+
+Future registerFCMToken({String token, String devicetype}) async {
+  print("....push token......");
+  final client = await getGraphqlClient();
+  final MutationOptions query = MutationOptions(
+      document: mutation_userPushToken,
+      variables: <String, String>{'token': token, 'devicetype': devicetype});
+  final QueryResult result = await client.mutate(query);
+  if (result.hasErrors) {
+    print("error...${result.errors}");
+    return result.errors;
+  }
+  return result.data;
 }

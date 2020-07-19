@@ -2,12 +2,16 @@ import 'package:easein/api/graphql_handler.dart';
 import 'package:easein/api/handlers.dart';
 import 'package:easein/components/error_alerts.dart';
 import 'package:easein/home.dart';
+import 'package:easein/model/user.dart';
 import 'package:easein/porgressIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateProfile extends StatefulWidget {
+  User user;
+  UpdateProfile({Key key, this.user}) : super(key: key);
+
   @override
   _UpdateProfileState createState() => _UpdateProfileState();
 }
@@ -31,6 +35,11 @@ class _UpdateProfileState extends State<UpdateProfile> {
   void initState() {
     super.initState();
     getPhoneNumber();
+    if(widget.user != null){
+      _text1.text = widget.user.name;
+      _text2.text = widget.user.address;
+      _text4.text = widget.user.email1;
+    }
   }
 
   getPhoneNumber() async {
