@@ -24,8 +24,11 @@ errorAlert(BuildContext context, int errorType) {
     case 6:
       message = "Invalid Phone Number";
       break;
-    case 6:
+    case 7:
       message = "Error Login please contact "+ EaseinString.customerSupportNumber ;
+      break;
+    case 8:
+      message = "Please enter OTP";
       break;
 
   }

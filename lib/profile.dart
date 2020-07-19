@@ -32,6 +32,15 @@ class _UpdateProfileState extends State<UpdateProfile> {
   bool loading = false;
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _text1.dispose();
+    _text2.dispose();
+    _text3.dispose();
+    _text4.dispose();
+  }
+  @override
   void initState() {
     super.initState();
     getPhoneNumber();
@@ -149,17 +158,12 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             loading = true;
                           });
                           if (_fbKey.currentState.saveAndValidate()) {
-                            print("...validatedd.....");
+
                             updateProfileAction();
                           } else {
                             setState(() {
                               loading = false;
                             });
-                            print("...validatedd. lllllllllllllll....");
-//                            print(_fbKey.currentState.value['contact_person']
-//                                .runtimeType);
-//                            print(_fbKey.currentState.value);
-//                            print('validation failed');
                           }
                         },
                       ),

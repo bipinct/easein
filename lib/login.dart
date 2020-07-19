@@ -99,7 +99,6 @@ class _LoginState extends State<Login> {
       var checkPhoneNumber = _phoneNumberValidator(textEditingController.text);
       if (checkPhoneNumber == null) {
         var result = await signInEnterPhoneNumber(textEditingController.text);
-        print(result);
         if (result != null && result["status"] == true) {
           Navigator.push(
               context,

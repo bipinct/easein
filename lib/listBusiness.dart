@@ -9,6 +9,7 @@ import 'package:easein/model/business.dart';
 import 'package:easein/porgressIndicator.dart';
 import 'package:easein/viewbusiness.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ListBusiness extends StatefulWidget {
@@ -17,7 +18,7 @@ class ListBusiness extends StatefulWidget {
 }
 
 class _ListBusinessState extends State<ListBusiness> {
-  List<Business> businessList = [];
+  List<Business> allBusinessList = [];
   bool loading = false;
 
   @override
@@ -37,93 +38,159 @@ class _ListBusinessState extends State<ListBusiness> {
         appBar: new AppBar(
           title: Text("My Businesses"),
         ),
-        body: Stack(children: <Widget>[
-          businessList.length > 0
-              ? ListView.separated(
-                  itemCount: businessList.length,
-                  separatorBuilder: (BuildContext context, int index) =>
-                      Divider(
-                    color: Colors.purple.shade200,
-                  ),
-                  itemBuilder: (context, i) {
-                    return businessList[i] != null
-                        ? ListTile(
-                            title: Text(businessList[i].shopName),
-                            subtitle: businessList[i].address != null
-                                ? Text(businessList[i].address)
-                                : Text(""),
-                            trailing: FlatButton(child: Icon(Icons.delete_outline),onPressed: (){
-
-                            },),
-                            onTap: () {
-                              // view business details
-                              Navigator.push(
-                                  context, MaterialPageRoute(builder: (context) => ViewBusiness(business: businessList[i]  )));
-                            },
-                            onLongPress: () {},
-                            leading:  CircleAvatar(
-                              radius: 20,
-                              backgroundColor: Colors.deepPurple,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AddBusiness()));
+          },
+          tooltip: 'Add Business',
+          child: Icon(Icons.edit),
+        ),
+        body: Padding(
+            padding: EdgeInsets.only(top: 20),
+            child: Stack(children: <Widget>[
+              allBusinessList.length > 0
+                  ? ListView.separated(
+                      itemCount: allBusinessList.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          Divider(
+                        color: Colors.purple.shade200,
+                      ),
+                      itemBuilder: (context, i) {
+                        return allBusinessList[i] != null
+                            ? ListTile(
+                                title: Text(allBusinessList[i].shopName),
+                                subtitle: allBusinessList[i].address != null
+                                    ? Text(allBusinessList[i].address)
+                                    : Text(""),
+                                trailing: FlatButton(
+                                  child: Icon(Icons.delete_outline),
+                                  onPressed: () {
+                                    Alert(
+                                      context: context,
+                                      title: "Confirm delete",
+                                      desc:
+                                          "Are you sure to delete this business",
+                                      buttons: [
+                                        DialogButton(
+                                          child: Text(
+                                            "Confirm",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                          onPressed: () {
+                                            deleteLocalBusiness(
+                                                allBusinessList[i]);
+                                            Navigator.pop(context);
+                                          },
+                                          width: 120,
+                                        ),
+                                        DialogButton(
+                                          child: Text(
+                                            "Cancel",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          width: 120,
+                                        ),
+                                      ],
+                                    ).show();
+                                  },
+                                ),
+                                onTap: () {
+                                  // view business details
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ViewBusiness(
+                                              business: allBusinessList[i])));
+                                },
+                                onLongPress: () {},
+                                leading: CircleAvatar(
+                                  radius: 20,
+                                  backgroundColor: Colors.deepPurple,
+                                  child: Text(
+                                    avatarImage(allBusinessList[i].shopName),
+                                    style: TextStyle(color: Colors.white),
+                                    key: new Key("avt_" + i.toString()),
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                height: 0,
+                                width: 0,
+                              );
+                      },
+                    )
+                  : Center(
+                      child: Wrap(children: <Widget>[
+                        emptyState(
+                            EaseinString.noBusiness,
+                            RaisedButton(
+                              color: EaseInTheme.buttonColors,
+                              textColor: Colors.white,
+                              onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddBusiness())),
                               child: Text(
-                                avatarImage(businessList[i].shopName),
-                                style: TextStyle(color: Colors.white),
-                                key: new Key("avt_" + i.toString()),
+                                EaseinString.addBusiness,
                               ),
-                            ),)
-                        : Container(
-                            height: 0,
-                            width: 0,
-                          );
-                  },
-                )
-              : Center(child: Wrap(
-              children: <Widget>[
-                emptyState(EaseinString.noBusiness, RaisedButton(
-                  color: EaseInTheme.buttonColors,
-                  textColor: Colors.white,
-                onPressed: ()=> Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => AddBusiness())),
-                child: Text(EaseinString.addBusiness,),
-              ))
-            ]),
-          ),
-          easeinProgressIndicator(context, loading)
-        ]));
+                            ))
+                      ]),
+                    ),
+              easeinProgressIndicator(context, loading)
+            ])));
   }
 
   loadFromCache() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var _businessList = prefs.getString("businessList");
-    if (businessList != null) {
-      var _localBizList = jsonDecode(_businessList);
-      List<Business> _bizList = [];
-      for (var i = 0; i < _localBizList.length; i++) {
-        Business biz = Business(
-            address: _localBizList[i]["address"],
-            shopName: _localBizList[i]["shopName"],
-            createdAt: _localBizList[i]["createdAt"],
-            publicid: _localBizList[i]["publicid"],
-            qrcodeString: _localBizList[i]["qrcodeString"],
-            isSelected: false);
-        _bizList.add(biz);
+    if(mounted) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var _businessList = prefs.getString("businessList");
+      if (allBusinessList != null) {
+        var _localBizList = jsonDecode(_businessList);
+        List<Business> _bizList = [];
+        for (var i = 0; i < _localBizList.length; i++) {
+          Business biz = Business(
+              address: _localBizList[i]["address"],
+              shopName: _localBizList[i]["shopName"],
+              createdAt: _localBizList[i]["createdAt"],
+              publicid: _localBizList[i]["publicid"],
+              qrcodeString: _localBizList[i]["qrcodeString"],
+              isSelected: false);
+          _bizList.add(biz);
+        }
+        setState(() {
+          loading = false;
+          allBusinessList = _bizList;
+        });
       }
-      setState(() {
-        loading = false;
-        businessList = _bizList;
-      });
     }
   }
 
-  loadBusiness() async {
-    List<Business> bizList= [];
-    try {
-      bizList = await getBusinessList();
-      print(bizList);
-    } catch (e) {}
-
+  deleteLocalBusiness(Business business) {
     setState(() {
-      loading = false;
-      businessList = bizList;
+      allBusinessList
+          .removeWhere((element) => element.publicid == business.publicid);
     });
+    saveBusinessToCache(allBusinessList);
+  }
+
+  loadBusiness() async {
+    if (mounted) {
+      List<Business> bizList = [];
+      try {
+        bizList = await getBusinessList();
+      } catch (e) {}
+
+      setState(() {
+        loading = false;
+        allBusinessList = bizList;
+      });
+    }
   }
 }

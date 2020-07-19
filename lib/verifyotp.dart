@@ -99,6 +99,10 @@ class _VerifyOTPState extends State<VerifyOTP> {
   }
 
   verifyOtp() async {
+    if(textEditingController.text == ""){
+      errorAlert(context, 8);
+      return ;
+    }
     setState(() {
       loading = true;
     });

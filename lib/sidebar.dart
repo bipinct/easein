@@ -1,4 +1,6 @@
+import 'package:easein/about.dart';
 import 'package:easein/addbusiness.dart';
+import 'package:easein/listActivities.dart';
 import 'package:easein/listBusiness.dart';
 import 'package:easein/model/user.dart';
 import 'package:easein/profile.dart';
@@ -71,7 +73,7 @@ Widget SidebBar({BuildContext context, User userProfile}) {
         title: Text('Activity Logs'),
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ListBusiness()));
+              context, MaterialPageRoute(builder: (context) => ListActivities()));
         },
       ),
       ListTile(
@@ -89,6 +91,14 @@ Widget SidebBar({BuildContext context, User userProfile}) {
               context, MaterialPageRoute(builder: (context) => AddBusiness()));
         },
       ),
+      ListTile(
+        title: Text('About'),
+        onTap: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => About()));
+        },
+      ),
+
       ListTile(
         title: Text('Logout'),
         onTap: () async {

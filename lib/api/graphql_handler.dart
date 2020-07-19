@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:easein/components/easein_strings.dart';
 import "package:graphql/client.dart";
 import "package:shared_preferences/shared_preferences.dart";
-
-const API_URL = "https://app.glue.is/easein";
+const API_URL = EaseinString.API_URL;
 
 getGraphqlClient() async {
   final GraphQLClient _client = GraphQLClient(
@@ -80,8 +80,7 @@ Future signInVerifyOTP(dynamic phoneNumber, dynamic otp) async {
         'phoneNumber': phoneNumber.toString(),
         'otp': otp.toString()
       });
-  print(phoneNumber);
-  print(otp);
+
   final client = await getGraphqlClient();
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
@@ -104,13 +103,7 @@ const String mutation_updateProfile = r'''
 }
 ''';
 
-Future updateProfile(
-    {String name,
-    String phone2,
-    String email1,
-    String email2,
-    String address,
-    String aadharNo}) async {
+Future updateProfile({String name, String phone2, String email1, String email2, String address, String aadharNo}) async {
   final MutationOptions query = MutationOptions(
       document: mutation_updateProfile,
       variables: <String, dynamic>{
@@ -133,7 +126,6 @@ Future updateProfile(
   return resp;
 }
 
-//  profilepic: ,address:"",city:"",state:"",district:"",pincode:"",twitter:"",facebook:"",)
 const String mutation_addBusiness = r'''
   mutation($shopName:String!,$phone:String!,$about:String!,$email:String,$address:String!){
   addBusiness(shopName: $shopName,phone:$phone,about:$about,email:$email,address:$address){
@@ -144,12 +136,7 @@ const String mutation_addBusiness = r'''
 }
 ''';
 
-Future addBusiness(
-    {String shopName,
-    String phone,
-    String email,
-    String address,
-    String about}) async {
+Future addBusiness({String shopName, String phone, String email, String address, String about}) async {
   final MutationOptions query = MutationOptions(
       document: mutation_addBusiness,
       variables: <String, dynamic>{
@@ -235,11 +222,8 @@ Future getActivityLog() async {
   final QueryResult result = await client.query(query);
   print(result.data);
   if (result.hasErrors) {
-    print("**************************************1111");
-    print(result.errors);
     throw (result.errors[0].toString());
   }
-
   Map<String, dynamic> resp =
       result.data != null && result.data["activityLog"] != null
           ? result.data["activityLog"]
@@ -258,31 +242,20 @@ const String mutation_addActivityLog = r'''
 ''';
 
 Future addActivityLog({String token, String requestId}) async {
-
-  print("****************************addd****");
-  print("********************************");
   final MutationOptions query = MutationOptions(
       document: mutation_addActivityLog,
       variables: <String, dynamic>{'token': token, 'requestId': requestId});
   final client = await getGraphqlClient();
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
-    print(result.errors);
-    print("********************************");
-    print("********************************");
     throw (result.errors[0].toString());
   }
   Map<String, dynamic> resp =
       result.data != null && result.data["addActivity"] != null
           ? result.data["addActivity"]
           : null;
-
-  print(result.data);
   return resp;
 }
-
-
-
 
 const String mutation_userPushToken = r'''
   mutation($token:String!,$devicetype: String){
@@ -294,15 +267,34 @@ const String mutation_userPushToken = r'''
 ''';
 
 Future registerFCMToken({String token, String devicetype}) async {
-  print("....push token......");
   final client = await getGraphqlClient();
   final MutationOptions query = MutationOptions(
       document: mutation_userPushToken,
       variables: <String, String>{'token': token, 'devicetype': devicetype});
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
-    print("error...${result.errors}");
-    return result.errors;
+    throw (result.errors[0].toString());
+  }
+  return result.data;
+}
+
+const String mutation_deleteBusiness = r'''
+  mutation($publicId:String!){
+    deleteBusiness(publicId:$publicId){ 
+    status
+    message     
+    }
+  }
+''';
+
+Future deleteBusinessApi({String publicId}) async {
+  final client = await getGraphqlClient();
+  final MutationOptions query = MutationOptions(
+      document: mutation_deleteBusiness,
+      variables: <String, String>{'publicId': publicId});
+  final QueryResult result = await client.mutate(query);
+  if (result.hasErrors) {
+    throw (result.errors[0].toString());
   }
   return result.data;
 }

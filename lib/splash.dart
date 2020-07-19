@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:easein/addbusiness.dart';
+import 'package:easein/components/easein_strings.dart';
 import 'package:easein/home.dart';
 import 'package:easein/listBusiness.dart';
 import 'package:easein/login.dart';
@@ -67,36 +68,50 @@ class _SplashState extends State<Splash> {
                 ))),
                 loadingHome
                     ? Positioned(
-                        bottom: 40,
-                        right: _width / 2,
+                        bottom: 100,
+                        right: (_width - 30) / 2,
                         width: 30,
                         height: 30,
                         child: CircularProgressIndicator(),
                       )
                     : Column(),
                 Positioned(
-                  bottom: 10,
-                  width: _width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text("easein @ 2020 ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontFamily: "SourceSerifPro",
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white70,
-                          )),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Image(
-                        image: AssetImage("assets/Digital_India_logo.png"),
-                      ),
-                    ],
-                  ),
-                )
+                    bottom: 10,
+                    width: _width,
+                    child: Wrap(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Image(
+                              image:
+                                  AssetImage("assets/Digital_India_logo.png"),
+                            ),
+                            SizedBox(width: 20,),
+                            Image(
+                              image: AssetImage("assets/rotibank.jpeg"),
+                            ),
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.center,
+                        ),
+                        SizedBox(
+                          height: 20,
+                          width: 100,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(EaseinString.copyrightString,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontFamily: "SourceSerifPro",
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white70,
+                                )),
+                          ],
+                        ),
+                      ],
+                    ))
               ],
             )));
   }
@@ -117,8 +132,6 @@ class _SplashState extends State<Splash> {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => MyHomePage()));
       }
-//          context, MaterialPageRoute(builder: (context) => ListBusiness()));
-//          context, MaterialPageRoute(builder: (context) => AddBusiness()));
     } else {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => Login()));

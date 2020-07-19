@@ -32,10 +32,12 @@ class _AddBusinessState extends State<AddBusiness> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
+    return
+
+      Scaffold(
 //        backgroundColor: Color(0xFF5c00d2),
         appBar: new AppBar(
-          title: Text("Add a Business"),
+          title: Text("Add Business"),
         ),
         body: Stack(children: <Widget>[
           Padding(
@@ -118,7 +120,7 @@ class _AddBusinessState extends State<AddBusiness> {
                           return text == null ? null : num.tryParse(text);
                         },
                         validators: [
-                          FormBuilderValidators.required(),
+//                          FormBuilderValidators.required(),
                            FormBuilderValidators.max(70),
                           FormBuilderValidators.minLength(5, allowEmpty: true),
                         ],
@@ -180,20 +182,11 @@ class _AddBusinessState extends State<AddBusiness> {
                             loading = true;
                           });
                           if (_fbKey.currentState.saveAndValidate()) {
-                            print("...validatedd.....");
                             addBusinessAction();
-//                            print(_fbKey.currentState.value['contact_person']
-//                                .runtimeType);
-//                            print(_fbKey.currentState.value);
                           } else {
                             setState(() {
                               loading = false;
                             });
-                            print("...validatedd. lllllllllllllll....");
-//                            print(_fbKey.currentState.value['contact_person']
-//                                .runtimeType);
-//                            print(_fbKey.currentState.value);
-//                            print('validation failed');
                           }
                         },
                       ),
@@ -239,13 +232,6 @@ class _AddBusinessState extends State<AddBusiness> {
       email: _text4.text,
       about: _text5.text,
     );
-    print("************************");
-    print("************************");
-    print("************************");
-//    print(result["status"]);
-    print("************************");
-    print("************************");
-    print("************************");
     if(result != null ){
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => MyHomePage()));

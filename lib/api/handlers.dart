@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:easein/api/caching.dart';
 import 'package:easein/api/graphql_handler.dart';
-import 'package:easein/listBusiness.dart';
 import 'package:easein/model/business.dart';
 import 'package:easein/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +11,7 @@ getBusinessList() async {
   List<dynamic> resp = businessesLF != null && businessesLF["list"] != null
       ? businessesLF["list"]
       : null;
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+
   List<Business> fetchedBusinessList = [];
   var bizLis = [];
   for (var i = 0; i < businessesLF["list"].length; i++) {
@@ -25,18 +24,16 @@ getBusinessList() async {
         isSelected: false);
     fetchedBusinessList.add(biz);
   }
-
-  prefs.setString("businessList", jsonEncode(fetchedBusinessList));
+  saveBusinessToCache(fetchedBusinessList);
   return fetchedBusinessList;
 }
 
-saveProfileToCache(
-    {String email,
-    String phone,
-    String name,
-    String address,
-    String aadharNumber,
-    String createdAt}) async {
+saveBusinessToCache(businessList) async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString("businessList", jsonEncode(businessList));
+}
+
+saveProfileToCache({String email, String phone, String name,String address, String aadharNumber, String createdAt}) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   User _user = new User(
       email1: email,
@@ -63,10 +60,8 @@ Future<User> getProfile() async {
   return _up;
 }
 
-
 avatarImage(String txt) {
   var spl = txt.trim().split(" ");
-  print(spl);
   var     _chr = spl[0].substring(0,1);
   if(spl.length > 1){
     _chr = _chr + spl[spl.length - 1].trim().substring(0,1);

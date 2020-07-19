@@ -55,7 +55,8 @@ class _MyHomePageState extends State<MyHomePage> {
     double padTop = businessQR.length > 0 ? 80 : 10;
 
     int biznum = 1;
-    return Scaffold(
+    return
+      Scaffold(
       appBar: AppBar(
         title: Text(EaseinString.appName),
       ),
@@ -99,24 +100,26 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future _scan() async {
     String barcode = await scanner.scan();
-    setState(() {
-      loading = true;
-    });
-    var now = new DateTime.now();
-    try {
-      var result =
-          await addActivityLog(token: barcode, requestId: now.toString());
-      if (result != null &&
-          result["status"] != null &&
-          result["status"] == true) {
-        await loadActivity();
+    if(barcode != "") {
+      setState(() {
+        loading = true;
+      });
+      var now = new DateTime.now();
+      try {
+        var result =
+        await addActivityLog(token: barcode, requestId: now.toString());
+        if (result != null &&
+            result["status"] != null &&
+            result["status"] == true) {
+          await loadActivity();
+        }
+      } catch (e) {
+        errorHandler(context, e.toString());
       }
-    } catch (e) {
-      errorHandler(context,e.toString());
+      setState(() {
+        loading = false;
+      });
     }
-    setState(() {
-      loading = false;
-    });
   }
 
   updateStore(_datafrom) {

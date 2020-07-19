@@ -26,6 +26,8 @@ dependencies:
   flutter_spinkit: "^4.1.2"
   firebase_messaging:
   flutter_local_notifications:
+  webview_flutter: ^0.3.22+1
+
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +48,7 @@ flutter:
     - assets/Digital_India_logo.png
     - assets/bg.jpg
     - assets/scanicon.png
+    - assets/rotibank.jpeg
   fonts:
     - family: SourceSerifPro
       fonts:
