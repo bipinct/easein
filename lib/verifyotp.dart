@@ -123,12 +123,20 @@ class _VerifyOTPState extends State<VerifyOTP> {
               email: result["user"]["email1"],
               phone: result["user"]["phone1"],
               createdAt: result["user"]["createdAt"]);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => MyHomePage()));
+
+          Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder: (BuildContext context) => MyHomePage()),
+                  (Route<dynamic> route) => false
+          );
+
         } else {
           await prefs.setString('profile', null);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => UpdateProfile()));
+          Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder: (BuildContext context) => UpdateProfile()),
+                  (Route<dynamic> route) => false
+          );
+
+
         }
       } else {
         errorAlert(context, 7);

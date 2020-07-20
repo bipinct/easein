@@ -13,8 +13,6 @@ List activityLogListBuilder(BuildContext context, activityLogList) {
           i++;
           Map<String, dynamic> _user = item["user"];
           Map<String, dynamic> _business = item["business"];
-          print("...item is business....");
-print(item['isBusiness']);
           return item['isBusiness'] == true
               ? userInfoCardForBusiness(
                   item, size, _business, _user, formatter, i)
