@@ -5,15 +5,15 @@ It's a simple scan and go app, where user have to scan the QR code at businesses
 
 ## Screens
 
-|![](screens/1.png) |
-![](screens/2.png) |
-![](screens/3.png) |
-![](screens/4.png) |
-![](screens/5.png) |
-![](screens/6.png) |
-![](screens/7.png) |
-![](screens/8.png) |
-![](screens/9.png) |
+|![](screens/1.png) 
+![](screens/2.png) 
+![](screens/3.png) 
+![](screens/4.png) 
+![](screens/5.png) 
+![](screens/6.png) 
+![](screens/7.png) 
+![](screens/8.png) 
+![](screens/9.png) 
 
 ## Motivation
 
@@ -26,15 +26,16 @@ This app is available on playstore at free of cost .You can support us by donati
 
 ## Live App
 
-[Google Play Store link](https://play.google.com/store/apps/details?id=com.qubits.easein.easein)
+[![Google Play Store link](screens/google-play-badge.png)](https://play.google.com/store/apps/details?id=com.qubits.easein.easein)
+
 
 ## Social Awareness 
 
-![Roti Bank Haldwani](screens/roti-bank.jpeg) |
+![Roti Bank Haldwani](screens/roti-bank.jpeg) 
 
 ### An Initiative to support Digtial India Movement
 
-![Digital India](screens/Digital_India_logo.png) |
+![Digital India](screens/Digital_India_logo.png) 
 
 ## License
 
