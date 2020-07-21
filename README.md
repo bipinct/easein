@@ -22,16 +22,18 @@ On 4th July 2020 Uttarkhand goverment announced that every business must have to
 This inspired us to develop an app to for business to assist them in hassle free record keeping.
 
 ## Support development
-This app is available on playstore at free of cost .You can support us by donating at your upi address: 9720191930@upi
+This app is available on playstore at free of cost .You can support us by donating at upi address: 9720191930@upi
 
 ## Live App
 
 [![Google Play Store link](screens/google-play-badge.png)](https://play.google.com/store/apps/details?id=com.qubits.easein.easein)
 
 
-## Social Awareness 
+## Credits
 
 ![Roti Bank Haldwani](screens/roti-bank.jpeg) 
+
+[Puneet Yadav](https://twitter.com/puneetyadavv) 
 
 ### An Initiative to support Digtial India Movement
 
