@@ -26,7 +26,7 @@ This app is available on playstore at free of cost .You can support us by donati
 
 ## Live App
 
-[![Google Play Store link](screens/google-play-badge.png)](https://play.google.com/store/apps/details?id=com.qubits.easein.easein)
+[![Google Play Store link](screens/google-play-badge.png)](https://play.google.com/store/apps/details?id=com.qubits.easeinapp.easeinapp)
 
 
 ## Credits
