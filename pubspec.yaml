@@ -1,0 +1,55 @@
+name: easeinapp
+description: A simple android assitance app for businesses to maintain people / customer visit logs. It's a simple scan and go app, where user have to scan the QR code at businesses/store and their records are logged in both users and shop owners accounts and these records are also shared in form of google sheet with the user and business verified emails..
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+2
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  qrscan:
+    git:
+      url: https://github.com/bipin000/qrcode_scanner.git
+  qr_flutter: ^3.2.0
+  rflutter_alert: ^1.0.3
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^0.1.3
+  shared_preferences:
+  graphql_flutter: ^1.0.0+4
+  flutter_form_builder: ^3.11.3
+  flutter_spinkit: "^4.1.2"
+  firebase_messaging:
+  flutter_local_notifications:
+  webview_flutter: ^0.3.22+1
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+  assets:
+    - assets/logo.png
+    - assets/Digital_India_logo.png
+    - assets/bg.jpg
+    - assets/scanicon.png
+    - assets/rotibank.jpeg
+  fonts:
+    - family: SourceSerifPro
+      fonts:
+        - asset: fonts/SourceSerifPro-Regular.ttf
