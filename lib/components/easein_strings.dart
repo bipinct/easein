@@ -5,7 +5,7 @@ class EaseinString {
   static const String TERMS_URL = "https://easein.in/terms";
   static const String API_URL = "https://easein.in/graphql";
 
-  static const String appName = "Easein";
+  static const String appName = "EaseIn";
   static const String titleActivityLogs = "Activity Logs";
   static const String noActivityLogs = "No Activity Log";
   static const String noBusiness = "No Business ";

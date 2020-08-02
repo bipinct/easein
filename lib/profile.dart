@@ -47,7 +47,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
     if(widget.user != null){
       _text1.text = widget.user.name;
       _text2.text = widget.user.address;
-      _text4.text = widget.user.email1;
+      _text4.text = widget.user.email1 ;
     }
   }
 

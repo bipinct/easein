@@ -18,6 +18,12 @@ class _LoginState extends State<Login> {
   bool loading = false;
   bool checkedValue = true;
 
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    textEditingController.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -48,6 +54,7 @@ class _LoginState extends State<Login> {
                   ),
                   child: Wrap(
                     children: <Widget>[
+
                       Row(
                         children: <Widget>[
                           Text(
@@ -59,6 +66,10 @@ class _LoginState extends State<Login> {
                       SizedBox(
                         height: 60,
                       ),
+                      Container(
+                          width: size.width - 100,
+                          child: Text("Enter mobile no")),
+
                       Row(
                         children: <Widget>[
                           Container(
@@ -139,11 +150,11 @@ class _LoginState extends State<Login> {
       if (checkPhoneNumber == null) {
         var result = await signInEnterPhoneNumber(textEditingController.text);
         if (result != null && result["status"] == true) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      VerifyOTP(phoneNumber: textEditingController.text)));
+
+          Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder: (BuildContext context) => VerifyOTP(phoneNumber: textEditingController.text)),
+                  (Route<dynamic> route) => false
+          );
         } else {
           var _errorMessage = "";
           if(result["message"] != null){

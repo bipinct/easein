@@ -27,7 +27,7 @@ class User {
       'createdAt': createdAt,
       'name': name,
       'address': address,
-      'emai1': email1,
+      'email1': email1,
       'address': address,
       'phone1': phone1
     };

@@ -7,6 +7,7 @@ import 'package:easeinapp/profile.dart';
 import 'package:easeinapp/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:share/share.dart';
 
 Widget SidebBar({BuildContext context, User userProfile}) {
   Size size = MediaQuery.of(context).size;
@@ -98,7 +99,12 @@ Widget SidebBar({BuildContext context, User userProfile}) {
               context, MaterialPageRoute(builder: (context) => About()));
         },
       ),
-
+      ListTile(
+        title: Text('Share'),
+        onTap: () {
+          Share.share('check out EaseIn app to maintain customer visit logs https://play.google.com/store/apps/details?id=com.qubits.easeinapp.easeinapp', subject: 'EaseIn maintain visitor logs easily ');
+        },
+      ),
       ListTile(
         title: Text('Logout'),
         onTap: () async {
@@ -111,6 +117,10 @@ Widget SidebBar({BuildContext context, User userProfile}) {
               MaterialPageRoute(builder: (context) => Splash()),
               ModalRoute.withName("/"));
         },
+      ),
+      Divider(),
+      ListTile(
+        title: Text('Version 1.0.0+2',style: TextStyle(color: Colors.indigo),),
       ),
     ],
   ));

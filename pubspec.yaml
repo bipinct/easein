@@ -27,6 +27,7 @@ dependencies:
   firebase_messaging:
   flutter_local_notifications:
   webview_flutter: ^0.3.22+1
+  share: ^0.6.4+3
 
 
 dev_dependencies:

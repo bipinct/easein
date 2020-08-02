@@ -50,6 +50,8 @@ Future<User> getProfile() async {
   String profile = prefs.getString("profile");
   if (profile != null) {
     var _pdata = jsonDecode(profile);
+    print("****************************************");
+    print(_pdata);
     _up = new User(
         createdAt: _pdata["createdAt"],
         name: _pdata["name"] != null  ? _pdata["name"]  : "NA",

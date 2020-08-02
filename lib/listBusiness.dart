@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:easeinapp/addbusiness.dart';
+import 'package:easeinapp/api/graphql_handler.dart';
 import 'package:easeinapp/api/handlers.dart';
 import 'package:easeinapp/components/easein_strings.dart';
 import 'package:easeinapp/components/easein_theme.dart';
@@ -172,11 +173,12 @@ class _ListBusinessState extends State<ListBusiness> {
     }
   }
 
-  deleteLocalBusiness(Business business) {
+  deleteLocalBusiness(Business business) async{
     setState(() {
       allBusinessList
           .removeWhere((element) => element.publicid == business.publicid);
     });
+   await deleteBusinessApi(publicId: business.publicid);
     saveBusinessToCache(allBusinessList);
   }
 

@@ -64,7 +64,7 @@ const String mutation_signInVerifyOTP = r'''
     token
     enableOnboarding
     user{
-     createdAt
+      createdAt
       name
       phone1
       email1
@@ -280,8 +280,8 @@ Future registerFCMToken({String token, String devicetype}) async {
 }
 
 const String mutation_deleteBusiness = r'''
-  mutation($publicId:String!){
-    deleteBusiness(publicId:$publicId){ 
+  mutation($businessId:String!){
+    deleteBusiness(businessId:$businessId){ 
     status
     message     
     }
@@ -292,7 +292,7 @@ Future deleteBusinessApi({String publicId}) async {
   final client = await getGraphqlClient();
   final MutationOptions query = MutationOptions(
       document: mutation_deleteBusiness,
-      variables: <String, String>{'publicId': publicId});
+      variables: <String, String>{'businessId': publicId});
   final QueryResult result = await client.mutate(query);
   if (result.hasErrors) {
     throw (result.errors[0].toString());
